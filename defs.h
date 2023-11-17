@@ -1,3 +1,6 @@
+//Hello World
+//New Changes
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,7 +8,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <time.h>
-//Hello World
+
 #define MAX_STR         64
 #define MAX_RUNS        50
 #define BOREDOM_MAX     100
