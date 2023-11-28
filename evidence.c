@@ -23,6 +23,7 @@ void addEvidenceToRoom(Room *room, EvidenceType evidence) {
     // add to tail and set tail to new evidence
     room->evidenceList->tail-> next = newEvidence;
     room->evidenceList->tail = newEvidence;
+    room->numEvidence++;
 
     sem_post(&room->evidenceMutex); // Unlock the semaphore
 }
@@ -34,7 +35,7 @@ void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
     }
 
     sem_wait(&room->evidenceMutex); // Lock the semaphore
-
+    room->numEvidence--;
     // Remove evidence logic here
     EvidenceNode *curr = room->evidenceList->head;
     //check is evidence need to be remove is first
