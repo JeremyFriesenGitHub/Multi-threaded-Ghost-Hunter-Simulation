@@ -27,3 +27,20 @@ void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
 }
 
 
+//clean up list of evidences
+void cleanupEvidences(EvidenceNode *head){
+    if(head == NULL) return;
+
+    // Free evidenceList
+    EvidenceNode *curr = head; 
+    EvidenceNode *temp = curr ->next;
+    free(curr);
+
+    //remove all evidence in list
+    while (temp != NULL) {
+        curr = temp; 
+        temp = temp->next;
+        free(curr); 
+    }
+}
+

@@ -55,6 +55,8 @@ typedef struct EvidenceNode {
     struct EvidenceNode *next;
 } EvidenceNode;
 
+
+
 typedef struct House {
     RoomNode *rooms; // Linked list of all rooms in the house
     HunterType *hunters; // Array or linked list of hunters
@@ -93,6 +95,7 @@ void cleanupRooms(RoomNode *room);
 void cleanupRoom(Room *room);
 void cleanupHunter(HunterType *hunter);
 void cleanUpGhost(GhostType *ghost);
+void cleanupEvidences(EvidenceNode *head);
 
 // Helper Utilies
 int randInt(int,int);        // Pseudo-random number generator function

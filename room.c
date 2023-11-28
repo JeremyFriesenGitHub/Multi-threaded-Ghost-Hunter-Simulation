@@ -65,37 +65,33 @@ void appendRoomToList(RoomNode *connectHead, Room *roomToAdd) {
 void cleanupRooms(RoomNode *rooms) {
     if(rooms == NULL) return ;
     RoomNode *curr = rooms;
-    RoomNode *temp = rooms->next;
+    RoomNode *temp = curr->next;
     cleanupRoom(curr->room);
-    while (temp->next != NULL) {
+    while (temp != NULL) {
         curr = temp; 
         temp = temp->next;
         cleanupRoom(curr->room); 
     }
-    cleanupRoom(temp->room);
-
 }
-//a b c
+
 void cleanupRoom(Room *room) {
     if (room == NULL) return;
-    // Free connectedRooms list
-    free(room->connectedRooms);
-    
-    // Free evidenceList
 
-    //Require to add a evidence list declaration in defs.h
-
-    /*RoomNode *curr = room->evidenceList; 
-    RoomNode *temp = NULL;
-    if(room->evidenceList != NULL )temp = room->evidenceList ->next;
-    free(curr->evidence);
+    // Free connectedRooms list node only
+    RoomNode *curr = room->connectedRooms;
+    RoomNode *temp = curr->next;
+    free(curr);
     while (temp != NULL) {
         curr = temp; 
         temp = temp->next;
-        free(curr->evidence); 
-    }*/
+        free(curr); 
+    }
+    
+    // Free evidenceList
+    cleanupEvidences(room->evidenceList);
 
     // Free hunters list (if applicable)
+    
     sem_destroy(&room->roomLock);
     free(room);
 }
