@@ -17,6 +17,7 @@
 #define NUM_HUNTERS     4
 #define FEAR_MAX        10
 #define LOGGING         C_TRUE
+#define MAX_EVIDENCE    100
 
 typedef enum EvidenceType EvidenceType;
 typedef enum GhostClass GhostClass;
@@ -29,6 +30,7 @@ typedef struct Ghost GhostType; // Forward declaration
 enum EvidenceType { EMF, TEMPERATURE, FINGERPRINTS, SOUND, EV_COUNT, EV_UNKNOWN };
 enum GhostClass { POLTERGEIST, BANSHEE, BULLIES, PHANTOM, GHOST_COUNT, GH_UNKNOWN };
 enum LoggerDetails { LOG_FEAR, LOG_BORED, LOG_EVIDENCE, LOG_SUFFICIENT, LOG_INSUFFICIENT, LOG_UNKNOWN };
+
 
 //Structs
 typedef struct Room {
@@ -79,6 +81,12 @@ void addRoom(HouseType *house, Room *room);
 void appendRoomToList(RoomNode *head, Room *room);
 void leaveEvidence(GhostType *ghost);
 void moveGhost(GhostType *ghost);
+
+//cleanup function
+void cleanupRooms(RoomNode *room);
+void cleanupRoom(Room *room);
+void cleanupHunter(HunterType *hunter);
+void cleanUpGhost(GhostType *ghost);
 
 // Helper Utilies
 int randInt(int,int);        // Pseudo-random number generator function

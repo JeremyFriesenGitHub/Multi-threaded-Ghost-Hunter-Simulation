@@ -69,9 +69,18 @@ void addRoom(HouseType *house, Room *room) {
     appendRoomToList(&house->rooms, room);
 }
 
-
+/*
+typedef struct House {
+    RoomNode *rooms; // Linked list of all rooms in the house
+    HunterType *hunters; // Array or linked list of hunters
+    EvidenceType *sharedEvidenceList; // Array or list of shared evidence
+    int numHunters; // Number of hunters in the house
+    int numSharedEvidence; // Number of evidence in shared list
+} HouseType;
+*/
 void cleanUpHouse(HouseType *house) {
     if (house == NULL) return;
+    
     // Free each room in the house's room list
     // Free hunters and sharedEvidenceList
     // Set all pointers to NULL and counters to 0
