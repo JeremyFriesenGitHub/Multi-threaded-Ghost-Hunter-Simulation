@@ -1,6 +1,5 @@
 #include "defs.h"
-//Hello World
-//New Updates
+
 /*
     Returns a pseudo randomly generated number, in the range min to (max - 1), inclusively
         in:   lower end of the range of the generated number

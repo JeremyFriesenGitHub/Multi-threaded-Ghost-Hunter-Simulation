@@ -1,6 +1,5 @@
 #include "defs.h"
-//Hello World
-//New Changes
+
 /*
     Dynamically allocates several rooms and populates the provided house.
     Note: You may modify this as long as room names and connections are maintained.
@@ -54,4 +53,26 @@ void populateRooms(HouseType* house) {
     addRoom(&house->rooms, living_room);
     addRoom(&house->rooms, garage);
     addRoom(&house->rooms, utility_room);
+}
+
+
+void initHouse(HouseType *house) {
+    house->rooms = NULL;
+    house->hunters = NULL;
+    house->sharedEvidenceList = NULL;
+    house->numHunters = 0;
+    house->numSharedEvidence = 0;
+}
+
+void addRoom(HouseType *house, Room *room) {
+    if (room == NULL) return;
+    appendRoomToList(&house->rooms, room);
+}
+
+
+void cleanUpHouse(HouseType *house) {
+    if (house == NULL) return;
+    // Free each room in the house's room list
+    // Free hunters and sharedEvidenceList
+    // Set all pointers to NULL and counters to 0
 }
