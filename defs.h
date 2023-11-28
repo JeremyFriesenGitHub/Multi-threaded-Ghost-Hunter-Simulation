@@ -105,11 +105,11 @@ void checkHunterFearAndBoredom(HunterType *hunter);
 void cleanupHunter(HunterType *hunter);
 
 //cleanup function
-void cleanupRooms(RoomNode *room);
-void cleanupRoom(Room *room);
-void cleanupHunter(HunterType *hunter);
-void cleanUpGhost(GhostType *ghost);
-void cleanupEvidences(EvidenceNode *head);
+void cleanupRooms(RoomNode *);
+void cleanupRoom(Room *);
+void cleanupHunter(HunterType *);
+void cleanUpGhost(GhostType *);
+void cleanupEvidences(EvidenceNode *);
 
 // Helper Utilies
 int randInt(int,int);        // Pseudo-random number generator function
@@ -117,6 +117,7 @@ float randFloat(float, float);  // Pseudo-random float generator function
 enum GhostClass randomGhost();  // Return a randomly selected a ghost type
 void ghostToString(enum GhostClass, char*); // Convert a ghost type to a string, stored in output paremeter
 void evidenceToString(enum EvidenceType, char*); // Convert an evidence type to a string, stored in output parameter
+int getEvidence(Room *, EvidenceType); //give true and false depend on does the evidence exist
 
 // Logging Utilities
 void l_hunterInit(char* name, enum EvidenceType equipment);

@@ -6,6 +6,23 @@ void initEvidenceList(EvidenceList *list){
     list->tail = NULL;
 }
 
+int getEvidence(Room *room, EvidenceType evidence) {
+
+    sem_wait(&room->evidenceMutex); // Lock the semaphore
+
+    EvidenceNode *curr = room->evidenceList->head;
+    while(curr != NULL){
+        if(curr -> evidence == evidence){
+            return C_TRUE;
+        }
+        curr = curr->next;  // find evidenceNode contain evidence
+    }
+
+    return C_FALSE;
+
+    sem_post(&room->evidenceMutex); // Unlock the semaphore
+}
+
 void addEvidenceToRoom(Room *room, EvidenceType evidence) {
     if (evidence < 0 || evidence >= EV_COUNT) {
         return; // Ignore unknown or invalid evidence types

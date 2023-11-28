@@ -38,7 +38,9 @@ void moveHunter(HunterType *hunter) {
 
 void collectEvidence(HunterType *hunter) {
     // Logic to collect evidence if it matches the hunter's equipment type
-    hunter = hunter;
+    if(getEvidence(hunter->currentRoom, hunter->equipmentType) == C_TRUE) {
+        //add evidence to share list
+    }
 }
 
 void reviewEvidence(HunterType *hunter) {
