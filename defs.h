@@ -20,6 +20,7 @@
 #define MAX_EVIDENCE    100
 
 typedef enum EvidenceType EvidenceType;
+typedef struct EvidenceNode EvidenceNode;
 typedef enum GhostClass GhostClass;
 typedef struct RoomNode RoomNode;
 typedef struct Room Room;
@@ -36,7 +37,7 @@ enum LoggerDetails { LOG_FEAR, LOG_BORED, LOG_EVIDENCE, LOG_SUFFICIENT, LOG_INSU
 typedef struct Room {
     char name[MAX_STR]; // MAX_STR is a predefined constant
     RoomNode *connectedRooms; // Linked list of connected rooms
-    EvidenceType *evidenceList; // Dynamically allocated array for evidence
+    EvidenceNode *evidenceList; // Dynamically allocated array for evidence
     int numEvidence; // Number of evidence in the room
     sem_t evidenceMutex;
     HunterType *hunters; // Array or linked list of hunters in the room
@@ -48,6 +49,11 @@ typedef struct RoomNode {
     struct Room *room;
     struct RoomNode *next;
 } RoomNode;
+
+typedef struct EvidenceNode {
+    EvidenceType *evidence;
+    struct EvidenceNode *next;
+} EvidenceNode;
 
 typedef struct House {
     RoomNode *rooms; // Linked list of all rooms in the house
