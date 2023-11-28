@@ -4,11 +4,12 @@
 void initEvidenceList(EvidenceList *list){
     list->head = NULL;
     list->tail = NULL;
+    sem_init(&list->evidenceMutex, 0, 1); // Initialize semaphore
 }
 
 int getEvidence(Room *room, EvidenceType evidence) {
 
-    sem_wait(&room->evidenceMutex); // Lock the semaphore
+    sem_wait(&room->evidenceList->evidenceMutex); // Lock the semaphore
 
     EvidenceNode *curr = room->evidenceList->head;
     while(curr != NULL){
@@ -20,7 +21,7 @@ int getEvidence(Room *room, EvidenceType evidence) {
 
     return C_FALSE;
 
-    sem_post(&room->evidenceMutex); // Unlock the semaphore
+    sem_post(&room->evidenceList->evidenceMutex); // Unlock the semaphore
 }
 
 void addEvidence(EvidenceList *list, EvidenceType evidence){
@@ -38,7 +39,7 @@ void addEvidence(EvidenceList *list, EvidenceType evidence){
 }
 
 void addEvidenceToShare(Room *room, EvidenceType evidence){
-    
+
 }
 
 void addEvidenceToRoom(Room *room, EvidenceType evidence) {
@@ -46,13 +47,13 @@ void addEvidenceToRoom(Room *room, EvidenceType evidence) {
         return; // Ignore unknown or invalid evidence types
     }
 
-    sem_wait(&room->evidenceMutex); // Lock the semaphore
+    sem_wait(&room->evidenceList->evidenceMutex); // Lock the semaphore
 
     // Add evidence logic here
     addEvidence(room->evidenceList, evidence);
     room->numEvidence++;
 
-    sem_post(&room->evidenceMutex); // Unlock the semaphore
+    sem_post(&room->evidenceList->evidenceMutex); // Unlock the semaphore
 }
 
 
@@ -61,7 +62,7 @@ void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
         return; // Ignore unknown or invalid evidence types
     }
 
-    sem_wait(&room->evidenceMutex); // Lock the semaphore
+    sem_wait(&room->evidenceList->evidenceMutex); // Lock the semaphore
     room->numEvidence--;
     // Remove evidence logic here
     EvidenceNode *curr = room->evidenceList->head;
@@ -90,7 +91,7 @@ void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
     free(curr);                 // free node
 
 
-    sem_post(&room->evidenceMutex); // Unlock the semaphore
+    sem_post(&room->evidenceList->evidenceMutex); // Unlock the semaphore
 }
 
 

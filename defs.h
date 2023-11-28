@@ -40,7 +40,6 @@ typedef struct Room {
     RoomNode *connectedRooms; // Linked list of connected rooms
     EvidenceList *evidenceList; // Dynamically allocated array for evidence
     int numEvidence; // Number of evidence in the room
-    sem_t evidenceMutex;
     HunterType *hunters; // Array or linked list of hunters in the room
     GhostType *ghost; // Pointer to a ghost, NULL if no ghost present
     sem_t roomLock; // Semaphore for threading synchronization
@@ -59,6 +58,7 @@ typedef struct EvidenceNode {
 typedef struct EvidenceList {
     struct EvidenceNode *head;
     struct EvidenceNode *tail;
+    sem_t evidenceMutex;
 } EvidenceList;
 
 
