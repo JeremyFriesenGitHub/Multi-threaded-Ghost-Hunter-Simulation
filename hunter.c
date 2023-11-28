@@ -33,14 +33,17 @@ void hunterAction(HunterType *hunter) {
 
 void moveHunter(HunterType *hunter) {
     // Logic to move the hunter to a connected room
+    hunter = hunter;
 }
 
 void collectEvidence(HunterType *hunter) {
     // Logic to collect evidence if it matches the hunter's equipment type
+    hunter = hunter;
 }
 
 void reviewEvidence(HunterType *hunter) {
     // Logic to review the shared evidence
+    hunter = hunter;
 }
 
 void checkHunterFearAndBoredom(HunterType *hunter) {
@@ -57,6 +60,6 @@ void checkHunterFearAndBoredom(HunterType *hunter) {
 }
 
 void cleanupHunter(HunterType *hunter){
-
+    hunter = hunter;
 }
 
