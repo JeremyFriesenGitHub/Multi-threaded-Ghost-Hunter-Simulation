@@ -103,6 +103,8 @@ void collectEvidence(HunterType *hunter);
 void reviewEvidence(HunterType *hunter);
 void checkHunterFearAndBoredom(HunterType *hunter);
 void cleanupHunter(HunterType *hunter);
+void addEvidence(EvidenceList *list, EvidenceType evidence);  //add evidence to list
+void addEvidenceToShare(Room *room, EvidenceType evidence); // add evidence to share evidence
 
 //cleanup function
 void cleanupRooms(RoomNode *);

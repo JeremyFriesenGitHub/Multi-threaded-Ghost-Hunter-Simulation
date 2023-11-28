@@ -40,6 +40,7 @@ void collectEvidence(HunterType *hunter) {
     // Logic to collect evidence if it matches the hunter's equipment type
     if(getEvidence(hunter->currentRoom, hunter->equipmentType) == C_TRUE) {
         //add evidence to share list
+        
     }
 }
 
