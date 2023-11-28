@@ -39,7 +39,7 @@ void unlockRoom(Room *room) {
 
 
 // Function to append a room to a room's linked list of connected rooms
-void appendRoomToList(Room *currentRoom, Room *roomToAdd) {
+void appendRoomToList(RoomNode *connectHead, Room *roomToAdd) {
     RoomNode *newNode = (RoomNode *)malloc(sizeof(RoomNode));
     if (newNode == NULL) {
         // Handle memory allocation failure
@@ -49,12 +49,12 @@ void appendRoomToList(Room *currentRoom, Room *roomToAdd) {
     newNode->room = roomToAdd;
     newNode->next = NULL;
 
-    if (currentRoom->connectedRooms == NULL) {
+    if (connectHead== NULL) {
         // First connection
-        currentRoom->connectedRooms = newNode;
+        connectHead = newNode;
     } else {
         // Append to the end of the list
-        RoomNode *current = currentRoom->connectedRooms;
+        RoomNode *current = connectHead;
         while (current->next != NULL) {
             current = current->next;
         }

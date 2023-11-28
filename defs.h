@@ -76,9 +76,9 @@ typedef struct Hunter {
 Room *createRoom(const char *name);
 void connectRooms(Room *room1, Room *room2);
 void addRoom(HouseType *house, Room *room);
-void appendRoomToList(RoomNode **head, Room *room);
+void appendRoomToList(RoomNode *head, Room *room);
 void leaveEvidence(GhostType *ghost);
-void moveGhost(GhostType *ghost)
+void moveGhost(GhostType *ghost);
 
 // Helper Utilies
 int randInt(int,int);        // Pseudo-random number generator function
