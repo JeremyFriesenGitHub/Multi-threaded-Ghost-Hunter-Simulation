@@ -89,7 +89,7 @@ typedef struct Hunter {
 
 //function declarations
 Room *createRoom(const char *name);
-void connectRooms(Room *room1, Room *room2);
+void connectRooms(RoomNode *room1, Room *room2);
 void addRoom(RoomNode *rooms, Room *room);
 void appendRoomToList(RoomNode *head, Room *room);
 void leaveEvidence(GhostType *ghost);

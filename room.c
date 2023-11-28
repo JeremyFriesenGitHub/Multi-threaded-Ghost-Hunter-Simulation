@@ -18,7 +18,7 @@ Room *createRoom(const char *name) {
 }
 
 // Function to connect two rooms
-void connectRooms(Room *room1, Room *room2) {
+void connectRooms(RoomNode *room1, Room *room2) {
     if (room1 == NULL || room2 == NULL) {
         // Handle null room pointers
         return;

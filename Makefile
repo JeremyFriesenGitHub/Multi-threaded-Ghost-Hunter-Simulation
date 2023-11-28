@@ -14,7 +14,7 @@ OBJS=$(SRCS:.c=.o)
 MAIN=ghost_hunt_simulator
 
 .PHONY: clean
-
+	
 all: $(MAIN)
 	@echo Simple ghost hunt simulator compiled
 
