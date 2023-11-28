@@ -25,10 +25,10 @@ void connectRooms(Room *room1, Room *room2) {
     }
 
     // Connect room1 to room2
-    appendRoomToList(room1, room2);
+    appendRoomToList(room1->connectedRooms, room2);
 
     // Connect room2 to room1
-    appendRoomToList(room2, room1);
+    appendRoomToList(room2->connectedRooms, room1);
 }
 
 void lockRoom(Room *room) {

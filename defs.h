@@ -95,6 +95,14 @@ void appendRoomToList(RoomNode *head, Room *room);
 void leaveEvidence(GhostType *ghost);
 void moveGhost(GhostType *ghost);
 void initEvidenceList(EvidenceList *list);
+void initHouse(HouseType *house);
+void populateRooms(HouseType* house);
+void addEvidenceToRoom(Room *room, EvidenceType evidence);
+void moveHunter(HunterType *hunter);
+void collectEvidence(HunterType *hunter);
+void reviewEvidence(HunterType *hunter);
+void checkHunterFearAndBoredom(HunterType *hunter);
+void cleanupHunter(HunterType *hunter);
 
 //cleanup function
 void cleanupRooms(RoomNode *room);
