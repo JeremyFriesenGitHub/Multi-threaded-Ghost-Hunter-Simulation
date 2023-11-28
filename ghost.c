@@ -56,6 +56,7 @@ void leaveEvidence(GhostType *ghost) {
         int evidenceIndex = randInt(0, 2); // Randomly select one of the ghost's valid evidence types
         EvidenceType evidence = ghost->validEvidenceTypes[evidenceIndex];
         // Add evidence to the room's evidence list (assuming dynamic array or linked list implementation)
+        addEvidenceToRoom(ghost->currentRoom, evidence);
     }
 }
 

@@ -26,6 +26,7 @@ typedef struct RoomNode RoomNode;
 typedef struct Room Room;
 typedef struct Hunter HunterType; // Forward declaration
 typedef struct Ghost GhostType; // Forward declaration
+typedef struct EvidenceList EvidenceList;
 
 
 enum EvidenceType { EMF, TEMPERATURE, FINGERPRINTS, SOUND, EV_COUNT, EV_UNKNOWN };
@@ -37,13 +38,13 @@ enum LoggerDetails { LOG_FEAR, LOG_BORED, LOG_EVIDENCE, LOG_SUFFICIENT, LOG_INSU
 typedef struct Room {
     char name[MAX_STR]; // MAX_STR is a predefined constant
     RoomNode *connectedRooms; // Linked list of connected rooms
-    EvidenceNode *evidenceList; // Dynamically allocated array for evidence
+    EvidenceList *evidenceList; // Dynamically allocated array for evidence
     int numEvidence; // Number of evidence in the room
     sem_t evidenceMutex;
     HunterType *hunters; // Array or linked list of hunters in the room
     GhostType *ghost; // Pointer to a ghost, NULL if no ghost present
     sem_t roomLock; // Semaphore for threading synchronization
-};
+}Room;
 
 typedef struct RoomNode {
     struct Room *room;
@@ -51,10 +52,14 @@ typedef struct RoomNode {
 } RoomNode;
 
 typedef struct EvidenceNode {
-    EvidenceType *evidence;
+    EvidenceType evidence;
     struct EvidenceNode *next;
 } EvidenceNode;
 
+typedef struct EvidenceList {
+    struct EvidenceNode *head;
+    struct EvidenceNode *tail;
+} EvidenceList;
 
 
 typedef struct House {
@@ -68,7 +73,7 @@ typedef struct House {
 typedef struct Ghost {
     GhostClass type; // Enumerated type of the ghost
     Room *currentRoom; // Pointer to the current room the ghost is in
-    int boredomTimer; // Boredom timer
+    int boredomTimer; // Boredom timerSS
     EvidenceType validEvidenceTypes[3]; // Array to store valid evidence types
 } GhostType;
 
@@ -85,10 +90,11 @@ typedef struct Hunter {
 //function declarations
 Room *createRoom(const char *name);
 void connectRooms(Room *room1, Room *room2);
-void addRoom(HouseType *house, Room *room);
+void addRoom(RoomNode *rooms, Room *room);
 void appendRoomToList(RoomNode *head, Room *room);
 void leaveEvidence(GhostType *ghost);
 void moveGhost(GhostType *ghost);
+void initEvidenceList(EvidenceList *list);
 
 //cleanup function
 void cleanupRooms(RoomNode *room);

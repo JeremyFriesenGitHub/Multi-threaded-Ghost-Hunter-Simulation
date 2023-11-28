@@ -64,9 +64,9 @@ void initHouse(HouseType *house) {
     house->numSharedEvidence = 0;
 }
 
-void addRoom(HouseType *house, Room *room) {
+void addRoom(RoomNode *rooms, Room *room) {
     if (room == NULL) return;
-    appendRoomToList(&house->rooms, room);
+    appendRoomToList(rooms, room);
 }
 
 /*
@@ -80,7 +80,7 @@ typedef struct House {
 */
 void cleanUpHouse(HouseType *house) {
     if (house == NULL) return;
-    
+
     // Free each room in the house's room list
     // Free hunters and sharedEvidenceList
     // Set all pointers to NULL and counters to 0

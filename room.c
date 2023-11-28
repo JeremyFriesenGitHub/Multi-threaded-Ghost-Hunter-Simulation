@@ -2,12 +2,14 @@
 
 Room *createRoom(const char *name) {
     Room *newRoom = (Room *)malloc(sizeof(Room));
+    EvidenceList *list = (EvidenceList *)malloc(sizeof(EvidenceList));
+    initEvidenceList(list);
     if (newRoom == NULL) {
         return NULL; // Memory allocation failed
     }
     strncpy(newRoom->name, name, MAX_STR);
     newRoom->connectedRooms = NULL;
-    newRoom->evidenceList = NULL; // Initially no evidence
+    newRoom->evidenceList = list; // Init a empty evidence array
     newRoom->numEvidence = 0;
     newRoom->hunters = NULL; // Initially no hunters
     newRoom->ghost = NULL; // Initially no ghost
@@ -88,7 +90,7 @@ void cleanupRoom(Room *room) {
     }
     
     // Free evidenceList
-    cleanupEvidences(room->evidenceList);
+    cleanupEvidences(room->evidenceList->head);
 
     // Free hunters list (if applicable)
     
