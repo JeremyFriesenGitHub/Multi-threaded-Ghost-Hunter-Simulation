@@ -36,6 +36,31 @@ void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
     sem_wait(&room->evidenceMutex); // Lock the semaphore
 
     // Remove evidence logic here
+    EvidenceNode *curr = room->evidenceList->head;
+    //check is evidence need to be remove is first
+    if(curr->evidence == evidence){
+        room->evidenceList->head = curr ->next;
+        free(curr);
+        return;
+    }
+
+    //check is evidence need to be remove is last
+    if(room->evidenceList->tail->evidence == evidence){
+        while(curr->next ->next != NULL) curr = curr -> next; //find second last node
+        free(room->evidenceList->tail);         //free tail
+        room->evidenceList->tail = curr;        // set tail to second last node
+        return;
+    }
+
+    EvidenceNode *prev;
+    while(curr->evidence != evidence){
+        prev = curr;        // store previous node
+        curr = curr->next;  // find evidenceNode contain evidence
+    }
+    
+    prev->next = curr->next;    // remove node from list
+    free(curr);                 // free node
+
 
     sem_post(&room->evidenceMutex); // Unlock the semaphore
 }
