@@ -5,7 +5,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -g
 
 # Define the source files
-SRCS=main.c house.c logger.c utils.c ghost.c hunter.c
+SRCS=main.c house.c logger.c utils.c ghost.c hunter.c room.c evidence.c
 
 # Define the object files 
 OBJS=$(SRCS:.c=.o)
@@ -16,7 +16,7 @@ MAIN=ghost_hunt_simulator
 .PHONY: clean
 
 all: $(MAIN)
-	@echo  Simple ghost hunt simulator compiled
+	@echo Simple ghost hunt simulator compiled
 
 $(MAIN): $(OBJS)
 	$(CC) $(CFLAGS) -o $(MAIN) $(OBJS)
