@@ -17,35 +17,50 @@
 #define NUM_HUNTERS     4
 #define FEAR_MAX        10
 #define LOGGING         C_TRUE
+#define MAX_EVIDENCE    100
 
 typedef enum EvidenceType EvidenceType;
+typedef struct EvidenceNode EvidenceNode;
 typedef enum GhostClass GhostClass;
 typedef struct RoomNode RoomNode;
 typedef struct Room Room;
 typedef struct Hunter HunterType; // Forward declaration
 typedef struct Ghost GhostType; // Forward declaration
+typedef struct EvidenceList EvidenceList;
 
 
 enum EvidenceType { EMF, TEMPERATURE, FINGERPRINTS, SOUND, EV_COUNT, EV_UNKNOWN };
 enum GhostClass { POLTERGEIST, BANSHEE, BULLIES, PHANTOM, GHOST_COUNT, GH_UNKNOWN };
 enum LoggerDetails { LOG_FEAR, LOG_BORED, LOG_EVIDENCE, LOG_SUFFICIENT, LOG_INSUFFICIENT, LOG_UNKNOWN };
 
+
 //Structs
 typedef struct Room {
     char name[MAX_STR]; // MAX_STR is a predefined constant
     RoomNode *connectedRooms; // Linked list of connected rooms
-    EvidenceType *evidenceList; // Dynamically allocated array for evidence
+    EvidenceList *evidenceList; // Dynamically allocated array for evidence
     int numEvidence; // Number of evidence in the room
     sem_t evidenceMutex;
     HunterType *hunters; // Array or linked list of hunters in the room
     GhostType *ghost; // Pointer to a ghost, NULL if no ghost present
     sem_t roomLock; // Semaphore for threading synchronization
-};
+}Room;
 
 typedef struct RoomNode {
     struct Room *room;
     struct RoomNode *next;
 } RoomNode;
+
+typedef struct EvidenceNode {
+    EvidenceType evidence;
+    struct EvidenceNode *next;
+} EvidenceNode;
+
+typedef struct EvidenceList {
+    struct EvidenceNode *head;
+    struct EvidenceNode *tail;
+} EvidenceList;
+
 
 typedef struct House {
     RoomNode *rooms; // Linked list of all rooms in the house
@@ -58,7 +73,7 @@ typedef struct House {
 typedef struct Ghost {
     GhostClass type; // Enumerated type of the ghost
     Room *currentRoom; // Pointer to the current room the ghost is in
-    int boredomTimer; // Boredom timer
+    int boredomTimer; // Boredom timerSS
     EvidenceType validEvidenceTypes[3]; // Array to store valid evidence types
 } GhostType;
 
@@ -75,10 +90,18 @@ typedef struct Hunter {
 //function declarations
 Room *createRoom(const char *name);
 void connectRooms(Room *room1, Room *room2);
-void addRoom(HouseType *house, Room *room);
-void appendRoomToList(RoomNode **head, Room *room);
+void addRoom(RoomNode *rooms, Room *room);
+void appendRoomToList(RoomNode *head, Room *room);
 void leaveEvidence(GhostType *ghost);
-void moveGhost(GhostType *ghost)
+void moveGhost(GhostType *ghost);
+void initEvidenceList(EvidenceList *list);
+
+//cleanup function
+void cleanupRooms(RoomNode *room);
+void cleanupRoom(Room *room);
+void cleanupHunter(HunterType *hunter);
+void cleanUpGhost(GhostType *ghost);
+void cleanupEvidences(EvidenceNode *head);
 
 // Helper Utilies
 int randInt(int,int);        // Pseudo-random number generator function

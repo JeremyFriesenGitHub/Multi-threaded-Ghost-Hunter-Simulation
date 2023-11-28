@@ -2,12 +2,14 @@
 
 Room *createRoom(const char *name) {
     Room *newRoom = (Room *)malloc(sizeof(Room));
+    EvidenceList *list = (EvidenceList *)malloc(sizeof(EvidenceList));
+    initEvidenceList(list);
     if (newRoom == NULL) {
         return NULL; // Memory allocation failed
     }
     strncpy(newRoom->name, name, MAX_STR);
     newRoom->connectedRooms = NULL;
-    newRoom->evidenceList = NULL; // Initially no evidence
+    newRoom->evidenceList = list; // Init a empty evidence array
     newRoom->numEvidence = 0;
     newRoom->hunters = NULL; // Initially no hunters
     newRoom->ghost = NULL; // Initially no ghost
@@ -39,7 +41,7 @@ void unlockRoom(Room *room) {
 
 
 // Function to append a room to a room's linked list of connected rooms
-void appendRoomToList(Room *currentRoom, Room *roomToAdd) {
+void appendRoomToList(RoomNode *connectHead, Room *roomToAdd) {
     RoomNode *newNode = (RoomNode *)malloc(sizeof(RoomNode));
     if (newNode == NULL) {
         // Handle memory allocation failure
@@ -49,12 +51,12 @@ void appendRoomToList(Room *currentRoom, Room *roomToAdd) {
     newNode->room = roomToAdd;
     newNode->next = NULL;
 
-    if (currentRoom->connectedRooms == NULL) {
+    if (connectHead== NULL) {
         // First connection
-        currentRoom->connectedRooms = newNode;
+        connectHead = newNode;
     } else {
         // Append to the end of the list
-        RoomNode *current = currentRoom->connectedRooms;
+        RoomNode *current = connectHead;
         while (current->next != NULL) {
             current = current->next;
         }
@@ -62,12 +64,36 @@ void appendRoomToList(Room *currentRoom, Room *roomToAdd) {
     }
 }
 
+void cleanupRooms(RoomNode *rooms) {
+    if(rooms == NULL) return ;
+    RoomNode *curr = rooms;
+    RoomNode *temp = curr->next;
+    cleanupRoom(curr->room);
+    while (temp != NULL) {
+        curr = temp; 
+        temp = temp->next;
+        cleanupRoom(curr->room); 
+    }
+}
 
 void cleanupRoom(Room *room) {
     if (room == NULL) return;
-    // Free connectedRooms list
+
+    // Free connectedRooms list node only
+    RoomNode *curr = room->connectedRooms;
+    RoomNode *temp = curr->next;
+    free(curr);
+    while (temp != NULL) {
+        curr = temp; 
+        temp = temp->next;
+        free(curr); 
+    }
+    
     // Free evidenceList
+    cleanupEvidences(room->evidenceList->head);
+
     // Free hunters list (if applicable)
+    
     sem_destroy(&room->roomLock);
     free(room);
 }

@@ -40,19 +40,19 @@ void populateRooms(HouseType* house) {
     connectRooms(garage, utility_room);
 
     // Add each room to the house's room list
-    addRoom(&house->rooms, van);
-    addRoom(&house->rooms, hallway);
-    addRoom(&house->rooms, master_bedroom);
-    addRoom(&house->rooms, boys_bedroom);
-    addRoom(&house->rooms, bathroom);
-    addRoom(&house->rooms, basement);
-    addRoom(&house->rooms, basement_hallway);
-    addRoom(&house->rooms, right_storage_room);
-    addRoom(&house->rooms, left_storage_room);
-    addRoom(&house->rooms, kitchen);
-    addRoom(&house->rooms, living_room);
-    addRoom(&house->rooms, garage);
-    addRoom(&house->rooms, utility_room);
+    addRoom(house->rooms, van);
+    addRoom(house->rooms, hallway);
+    addRoom(house->rooms, master_bedroom);
+    addRoom(house->rooms, boys_bedroom);
+    addRoom(house->rooms, bathroom);
+    addRoom(house->rooms, basement);
+    addRoom(house->rooms, basement_hallway);
+    addRoom(house->rooms, right_storage_room);
+    addRoom(house->rooms, left_storage_room);
+    addRoom(house->rooms, kitchen);
+    addRoom(house->rooms, living_room);
+    addRoom(house->rooms, garage);
+    addRoom(house->rooms, utility_room);
 }
 
 
@@ -64,15 +64,25 @@ void initHouse(HouseType *house) {
     house->numSharedEvidence = 0;
 }
 
-void addRoom(HouseType *house, Room *room) {
+void addRoom(RoomNode *rooms, Room *room) {
     if (room == NULL) return;
-    appendRoomToList(&house->rooms, room);
+    appendRoomToList(rooms, room);
 }
 
-
+/*
+typedef struct House {
+    RoomNode *rooms; // Linked list of all rooms in the house
+    HunterType *hunters; // Array or linked list of hunters
+    EvidenceType *sharedEvidenceList; // Array or list of shared evidence
+    int numHunters; // Number of hunters in the house
+    int numSharedEvidence; // Number of evidence in shared list
+} HouseType;
+*/
 void cleanUpHouse(HouseType *house) {
     if (house == NULL) return;
+
     // Free each room in the house's room list
+    cleanupRooms(house->rooms);
     // Free hunters and sharedEvidenceList
     // Set all pointers to NULL and counters to 0
 }
