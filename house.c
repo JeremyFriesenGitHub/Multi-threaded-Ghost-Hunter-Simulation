@@ -57,9 +57,11 @@ void populateRooms(HouseType* house) {
 
 
 void initHouse(HouseType *house) {
+    EvidenceList *list = (EvidenceList *) malloc(sizeof(EvidenceList));
+    initEvidenceList(list);
     house->rooms = NULL;
     house->hunters = NULL;
-    house->sharedEvidenceList = NULL;
+    house->sharedEvidenceList = list;
     house->numHunters = 0;
     house->numSharedEvidence = 0;
 }
