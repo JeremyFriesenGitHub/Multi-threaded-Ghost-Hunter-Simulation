@@ -32,8 +32,8 @@ void hunterAction(HunterType *hunter) {
 
 
 void moveHunter(HunterType *hunter) {
-    // Logic to move the hunter to a connected room
-    hunter = hunter;
+    int randomRoom = randInt(0, 3);
+    void hunterSwitchRoom(HunterType *hunter, int roomIndex);
 }
 
 void collectEvidence(HunterType *hunter) {

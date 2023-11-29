@@ -105,6 +105,7 @@ void reviewEvidence(HunterType *hunter);
 void checkHunterFearAndBoredom(HunterType *hunter);
 void cleanupHunter(HunterType *hunter);
 void addEvidence(EvidenceList *list, EvidenceType evidence);  //add evidence to list
+void hunterSwitchRoom(HunterType *hunter, int roomIndex); //move hunter to new room
 
 //cleanup function
 void cleanupRooms(RoomNode *);

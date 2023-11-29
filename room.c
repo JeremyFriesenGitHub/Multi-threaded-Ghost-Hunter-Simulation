@@ -42,6 +42,9 @@ void unlockRoom(Room *room) {
     sem_post(&room->roomLock);
 }
 
+void hunterSwitchRoom(HunterType *hunter, int roomIndex){
+
+}
 
 // Function to append a room to a room's linked list of connected rooms
 void appendRoomToList(RoomNode *connectHead, Room *roomToAdd) {
