@@ -10,7 +10,6 @@ Room *createRoom(const char *name) {
     strncpy(newRoom->name, name, MAX_STR);
     newRoom->connectedRooms = NULL;
     newRoom->evidenceList = list; // Init a empty evidence array
-    newRoom->numEvidence = 0;
     newRoom->hunters = NULL; // Initially no hunters
     newRoom->ghost = NULL; // Initially no ghost
     sem_init(&newRoom->roomLock, 0, 1); // Initialize semaphore

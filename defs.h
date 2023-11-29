@@ -39,7 +39,6 @@ typedef struct Room {
     char name[MAX_STR]; // MAX_STR is a predefined constant
     RoomNode *connectedRooms; // Linked list of connected rooms
     EvidenceList *evidenceList; // Dynamically allocated array for evidence
-    int numEvidence; // Number of evidence in the room
     HunterType *hunters; // Array or linked list of hunters in the room
     GhostType *ghost; // Pointer to a ghost, NULL if no ghost present
     sem_t roomLock; // Semaphore for threading synchronization
@@ -59,13 +58,14 @@ typedef struct EvidenceList {
     struct EvidenceNode *head;
     struct EvidenceNode *tail;
     sem_t evidenceMutex;
+    int numEvidence; // Number of evidence in the room
 } EvidenceList;
 
 
 typedef struct House {
     RoomNode *rooms; // Linked list of all rooms in the house
     HunterType *hunters; // Array or linked list of hunters
-    EvidenceType *sharedEvidenceList; // Array or list of shared evidence
+    EvidenceList *sharedEvidenceList; // Array or list of shared evidence
     int numHunters; // Number of hunters in the house
     int numSharedEvidence; // Number of evidence in shared list
 } HouseType;
@@ -81,7 +81,7 @@ typedef struct Hunter {
     Room *currentRoom;
     EvidenceType equipmentType; // Type of evidence the hunter can collect
     char name[MAX_STR];
-    EvidenceType *sharedEvidence; // Pointer to shared evidence collection
+    EvidenceList *sharedEvidence; // Pointer to shared evidence collection
     int fear;
     int boredom;
 } HunterType;
@@ -104,7 +104,6 @@ void reviewEvidence(HunterType *hunter);
 void checkHunterFearAndBoredom(HunterType *hunter);
 void cleanupHunter(HunterType *hunter);
 void addEvidence(EvidenceList *list, EvidenceType evidence);  //add evidence to list
-void addEvidenceToShare(Room *room, EvidenceType evidence); // add evidence to share evidence
 
 //cleanup function
 void cleanupRooms(RoomNode *);
