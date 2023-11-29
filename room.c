@@ -50,7 +50,7 @@ void hunterSwitchRoom(HunterType *hunter, int roomIndex){
     int ind = 0;
     while(roomIndex != ind){
         ind++;
-        curr= curr->next;
+        curr= curr->next;   
     }
 
     //move hunter to new room
@@ -59,11 +59,43 @@ void hunterSwitchRoom(HunterType *hunter, int roomIndex){
 }
 
 void addHunterToRoom(HunterType *hunter, Room *room){
+    lockRoom(room);
+    HunterNode *hunters = room->hunters;
 
+    //create new hunter node
+    HunterNode *newHunter = (HunterNode*) malloc(sizeof(HunterNode));
+    newHunter->next = NULL;
+    newHunter->hunter = hunter;
+
+    //find tail of link list
+    while(hunters->next != NULL){
+        hunters = hunters ->next;
+    }
+
+    //add hunter to tail
+    hunters->next = newHunter;
+    unlockRoom(room);
 }
 
 void removeHunterFromRoom(HunterType *hunter, Room *room){
+    lockRoom(room);
+    HunterNode *hunters = room->hunters;
+    HunterNode *prev = NULL;
 
+    while(strcmp(hunters->hunter->name, hunter->name)!= 0){
+        prev = hunters;
+        hunters = hunters ->next;
+    }
+
+    //check is hunter first
+    if(prev == NULL){
+        room->hunters = hunters->next;
+    }else{
+        prev->next = hunters->next;
+    }
+    //free node 
+    free(hunters);
+    unlockRoom(room);
 }
 
 // Function to append a room to a room's linked list of connected rooms

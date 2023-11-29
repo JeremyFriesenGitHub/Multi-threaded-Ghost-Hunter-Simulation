@@ -40,10 +40,15 @@ typedef struct Room {
     RoomNode *connectedRooms; // Linked list of connected rooms
     int connectedNum;  //Amount of connect room
     EvidenceList *evidenceList; // Dynamically allocated array for evidence
-    HunterType *hunters; // Array or linked list of hunters in the room
+    HunterNode *hunters; // Array or linked list of hunters in the room
     GhostType *ghost; // Pointer to a ghost, NULL if no ghost present
     sem_t roomLock; // Semaphore for threading synchronization
 }Room;
+
+typedef struct HunterNode {
+    struct Hunter *hunter;
+    struct HunterNode *next;
+} HunterNode;
 
 typedef struct RoomNode {
     struct Room *room;
