@@ -70,7 +70,7 @@ typedef struct EvidenceList {
 
 typedef struct House {
     RoomNode *rooms; // Linked list of all rooms in the house
-    HunterType *hunters; // Array or linked list of hunters
+    HunterNode *hunters; // Array or linked list of hunters
     EvidenceList *sharedEvidenceList; // Array or list of shared evidence
     int numHunters; // Number of hunters in the house
     int numSharedEvidence; // Number of evidence in shared list
@@ -120,6 +120,7 @@ void cleanupRoom(Room *);
 void cleanupHunter(HunterType *);
 void cleanUpGhost(GhostType *);
 void cleanupEvidences(EvidenceNode *);
+void cleanupHunters(HunterNode *);
 
 // Helper Utilies
 int randInt(int,int);        // Pseudo-random number generator function

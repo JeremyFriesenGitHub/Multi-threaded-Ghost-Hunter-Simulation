@@ -33,7 +33,9 @@ void hunterAction(HunterType *hunter) {
 
 void moveHunter(HunterType *hunter) {
     int randomRoom = randInt(0, (hunter->currentRoom->connectedNum - 1));
-    void hunterSwitchRoom(hunter, randomRoom);
+
+    //switch hunters room
+    hunterSwitchRoom(hunter, randomRoom);
 }
 
 void collectEvidence(HunterType *hunter) {
@@ -63,6 +65,16 @@ void checkHunterFearAndBoredom(HunterType *hunter) {
     }
 }
 
-void cleanupHunter(HunterType *hunter){
-    hunter = hunter;
+//
+void cleanupHunters(HunterNode *hunters){
+    if(hunters == NULL) return ;
+    HunterNode *curr = hunters;
+    HunterNode *temp = curr->next;
+    free(curr->hunter);
+    while (temp != NULL) {
+        curr = temp; 
+        temp = temp->next;
+        free(curr->hunter); 
+    }
 }
+

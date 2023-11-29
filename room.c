@@ -54,10 +54,15 @@ void hunterSwitchRoom(HunterType *hunter, int roomIndex){
     }
 
     //move hunter to new room
-    hunter->currentRoom = curr; 
+    removeHunterFromRoom(hunter, hunter->currentRoom);
+    addHunterToRoom(hunter, curr->room);
+
+    //unlock the room
     unlockRoom(hunter->currentRoom);
 }
 
+
+//Add the hunter to the list of hunter in room
 void addHunterToRoom(HunterType *hunter, Room *room){
     lockRoom(room);
     HunterNode *hunters = room->hunters;
@@ -74,9 +79,11 @@ void addHunterToRoom(HunterType *hunter, Room *room){
 
     //add hunter to tail
     hunters->next = newHunter;
+    hunter->currentRoom = room; 
     unlockRoom(room);
 }
 
+//Remove the hunter to the list of hunter in room
 void removeHunterFromRoom(HunterType *hunter, Room *room){
     lockRoom(room);
     HunterNode *hunters = room->hunters;
