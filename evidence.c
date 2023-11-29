@@ -42,10 +42,6 @@ void addEvidence(EvidenceList *list, EvidenceType evidence){
     sem_post(&list->evidenceMutex); 
 }
 
-void addEvidenceToShare(Room *room, EvidenceType evidence){
-
-}
-
 void addEvidenceToRoom(Room *room, EvidenceType evidence) {
     if (evidence < 0 || evidence >= EV_COUNT) {
         return; // Ignore unknown or invalid evidence types
@@ -54,10 +50,11 @@ void addEvidenceToRoom(Room *room, EvidenceType evidence) {
     sem_wait(&room->evidenceList->evidenceMutex); // Lock the semaphore
 
     // Add evidence logic here
-    addEvidence(room->evidenceList, evidence);
     room->numEvidence++;
 
     sem_post(&room->evidenceList->evidenceMutex); // Unlock the semaphore
+
+    addEvidence(room->evidenceList, evidence);
 }
 
 
@@ -66,7 +63,14 @@ void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
         return; // Ignore unknown or invalid evidence types
     }
 
-    sem_wait(&room->roomLock); // Lock the semaphore
+    sem_wait(&room->roomLock);
+
+    room->numEvidence--;
+
+    sem_post(&room->roomLock);
+
+
+    sem_wait(&room->evidenceList->evidenceMutex); // Lock the semaphore
     room->numEvidence--;
     // Remove evidence logic here
     EvidenceNode *curr = room->evidenceList->head;
@@ -95,7 +99,7 @@ void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
     free(curr);                 // free node
 
 
-    sem_post(&room->roomLock); // Unlock the semaphore
+    sem_post(&room->evidenceList->evidenceMutex); // Unlock the semaphore
 }
 
 
