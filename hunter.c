@@ -32,8 +32,8 @@ void hunterAction(HunterType *hunter) {
 
 
 void moveHunter(HunterType *hunter) {
-    int randomRoom = randInt(0, 3);
-    void hunterSwitchRoom(HunterType *hunter, int roomIndex);
+    int randomRoom = randInt(0, (hunter->currentRoom->connectedNum - 1));
+    void hunterSwitchRoom(hunter, randomRoom);
 }
 
 void collectEvidence(HunterType *hunter) {

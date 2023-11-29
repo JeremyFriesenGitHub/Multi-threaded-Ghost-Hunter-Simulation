@@ -43,6 +43,26 @@ void unlockRoom(Room *room) {
 }
 
 void hunterSwitchRoom(HunterType *hunter, int roomIndex){
+    lockRoom(hunter->currentRoom);
+    
+    //find room
+    RoomNode *curr = hunter->currentRoom->connectedRooms;
+    int ind = 0;
+    while(roomIndex != ind){
+        ind++;
+        curr= curr->next;
+    }
+
+    //move hunter to new room
+    hunter->currentRoom = curr; 
+    unlockRoom(hunter->currentRoom);
+}
+
+void addHunterToRoom(HunterType *hunter, Room *room){
+
+}
+
+void removeHunterFromRoom(HunterType *hunter, Room *room){
 
 }
 
