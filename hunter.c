@@ -37,16 +37,14 @@ void moveHunter(HunterType *hunter) {
 
     //switch hunters room
     hunterSwitchRoom(hunter, randomRoom);
-<<<<<<< HEAD
 
     l_hunterMove(hunter->name, hunter->currentRoom->name);
-=======
->>>>>>> 88178263904046c87c93dbeb55de4dcb8a4ae422
+
 }
 
 void collectEvidence(HunterType *hunter) {
     // Logic to collect evidence if it matches the hunter's equipment type
-    if(getEvidence(hunter->currentRoom, hunter->equipmentType) == C_TRUE) {
+    if(getEvidence(hunter->currentRoom->evidenceList, hunter->equipmentType) == C_TRUE) {
         //add evidence to share list
         addEvidence(hunter->sharedEvidence, hunter->equipmentType);
         l_hunterCollect(hunter->name, hunter->equipmentType, hunter->currentRoom->name);
@@ -55,13 +53,47 @@ void collectEvidence(HunterType *hunter) {
     
 }
 
+
+/*
+POLTERGEIST: Leaves ghostly EMF, TEMPERATURE, and FINGERPRINTS
+BANSHEE: Leaves ghostly EMF, TEMPERATURE, and SOUND
+BULLIES: Leaves ghostly EMF, FINGERPRINTS, and SOUND
+PHANTOM: Leaves ghostly TEMPERATURE, FINGERPRINTS, and SOUND
+*/
+
 void reviewEvidence(HunterType *hunter) {
     // Logic to review the shared evidence
-    // if (getEvidence()){
+    GhostClass class = GH_UNKNOWN;
 
-    // }
+    // check if ghost is poltergeist, bamshee, bullies
+    if (getEvidence(hunter->sharedEvidence, EMF) == C_TRUE){
 
-    //l_hunterReview(hunter->name, enum LoggerDetails result)
+        //Check if ghost is poltergeist or banshee
+        if (getEvidence(hunter->sharedEvidence, TEMPERATURE) == C_TRUE){
+            
+            if (getEvidence(hunter->sharedEvidence, SOUND) == C_TRUE){
+                class = BANSHEE;
+            }else if (getEvidence(hunter->sharedEvidence, FINGERPRINTS) == C_TRUE){
+                class = POLTERGEIST;
+            }
+
+        //Check is ghost BULLIES
+        }else if (getEvidence(hunter->sharedEvidence, FINGERPRINTS) == C_TRUE){
+                class = BULLIES;
+            }
+
+    //Check is it phantom
+    }else if(getEvidence(hunter->sharedEvidence, TEMPERATURE) == C_TRUE){
+        if (getEvidence(hunter->sharedEvidence, FINGERPRINTS) == C_TRUE){
+            if (getEvidence(hunter->sharedEvidence, SOUND) == C_TRUE){
+                class = PHANTOM;
+            }
+        }
+    }
+
+    //exit thread somehow if class not GH_UNKNOWN
+
+    l_hunterReview(hunter->name, class);
 }
 
 void checkHunterFearAndBoredom(HunterType *hunter) {

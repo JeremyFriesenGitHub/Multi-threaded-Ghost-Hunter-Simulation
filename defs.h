@@ -113,12 +113,8 @@ void addEvidence(EvidenceList *list, EvidenceType evidence);  //add evidence to 
 void hunterSwitchRoom(HunterType *hunter, int roomIndex); //move hunter to new room
 void addHunterToRoom(HunterType *hunter, Room *room); //add hunter to room
 void removeHunterFromRoom(HunterType *hunter, Room *room); //remove hunter from room
-<<<<<<< HEAD
 void lockRoom(Room *room);
 void unlockRoom(Room *room);
-
-=======
->>>>>>> 88178263904046c87c93dbeb55de4dcb8a4ae422
 
 //cleanup function
 void cleanupRooms(RoomNode *);
@@ -127,10 +123,8 @@ void cleanupHunter(HunterType *);
 void cleanUpGhost(GhostType *);
 void cleanupEvidences(EvidenceNode *);
 void cleanupHunters(HunterNode *);
-<<<<<<< HEAD
 void cleanUpHouse(HouseType *house);
-=======
->>>>>>> 88178263904046c87c93dbeb55de4dcb8a4ae422
+
 
 // Helper Utilies
 int randInt(int,int);        // Pseudo-random number generator function
@@ -138,7 +132,7 @@ float randFloat(float, float);  // Pseudo-random float generator function
 enum GhostClass randomGhost();  // Return a randomly selected a ghost type
 void ghostToString(enum GhostClass, char*); // Convert a ghost type to a string, stored in output paremeter
 void evidenceToString(enum EvidenceType, char*); // Convert an evidence type to a string, stored in output parameter
-int getEvidence(Room *, EvidenceType); //give true and false depend on does the evidence exist
+int getEvidence(EvidenceList *, EvidenceType); //give true and false depend on does the evidence exist
 
 // Logging Utilities
 void l_hunterInit(char* name, enum EvidenceType equipment);

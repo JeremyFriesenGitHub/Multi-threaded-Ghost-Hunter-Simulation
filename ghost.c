@@ -61,7 +61,7 @@ void moveGhost(GhostType *ghost) {
 
 
 void leaveEvidence(GhostType *ghost) {
-    if (ghost->currentRoom->numEvidence < MAX_EVIDENCE) { // MAX_EVIDENCE is the max number of evidence a room can hold
+    if (ghost->currentRoom->evidenceList->numEvidence< MAX_EVIDENCE) { // MAX_EVIDENCE is the max number of evidence a room can hold
         int evidenceIndex = randInt(0, 2); // Randomly select one of the ghost's valid evidence types
         EvidenceType evidence = ghost->validEvidenceTypes[evidenceIndex];
 

@@ -9,11 +9,11 @@ void initEvidenceList(EvidenceList *list){
     list->numEvidence = 0;
 }
 
-int getEvidence(Room *room, EvidenceType evidence) {
+int getEvidence(EvidenceList *list, EvidenceType evidence) {
 
-    sem_wait(&room->evidenceList->evidenceMutex); // Lock the semaphore
+    sem_wait(&list->evidenceMutex); // Lock the semaphore
 
-    EvidenceNode *curr = room->evidenceList->head;
+    EvidenceNode *curr = list->head;
     while(curr != NULL){
         if(curr -> evidence == evidence){
             return C_TRUE;
@@ -23,7 +23,7 @@ int getEvidence(Room *room, EvidenceType evidence) {
 
     return C_FALSE;
 
-    sem_post(&room->evidenceList->evidenceMutex); // Unlock the semaphore
+    sem_post(&list->evidenceMutex); // Unlock the semaphore
 }
 
 void addEvidence(EvidenceList *list, EvidenceType evidence){
