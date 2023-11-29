@@ -111,4 +111,3 @@ void cleanupEvidences(EvidenceNode *head){
         free(curr); 
     }
 }
-

@@ -78,5 +78,3 @@ void cleanUpGhost(GhostType *ghost) {
     // Implement if there are resources to be cleaned up
     ghost = ghost;
 }
-
-

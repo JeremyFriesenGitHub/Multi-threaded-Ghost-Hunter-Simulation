@@ -65,4 +65,3 @@ void checkHunterFearAndBoredom(HunterType *hunter) {
 void cleanupHunter(HunterType *hunter){
     hunter = hunter;
 }
-
