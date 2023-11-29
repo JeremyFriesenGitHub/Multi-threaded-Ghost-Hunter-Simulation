@@ -38,6 +38,7 @@ enum LoggerDetails { LOG_FEAR, LOG_BORED, LOG_EVIDENCE, LOG_SUFFICIENT, LOG_INSU
 typedef struct Room {
     char name[MAX_STR]; // MAX_STR is a predefined constant
     RoomNode *connectedRooms; // Linked list of connected rooms
+    int connectedNum;  //Amount of connect room
     EvidenceList *evidenceList; // Dynamically allocated array for evidence
     HunterType *hunters; // Array or linked list of hunters in the room
     GhostType *ghost; // Pointer to a ghost, NULL if no ghost present

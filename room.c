@@ -9,6 +9,7 @@ Room *createRoom(const char *name) {
     }
     strncpy(newRoom->name, name, MAX_STR);
     newRoom->connectedRooms = NULL;
+    newRoom->connectedNum = 0;
     newRoom->evidenceList = list; // Init a empty evidence array
     newRoom->hunters = NULL; // Initially no hunters
     newRoom->ghost = NULL; // Initially no ghost
@@ -25,9 +26,12 @@ void connectRooms(Room *room1, Room *room2) {
 
     // Connect room1 to room2
     appendRoomToList(room1->connectedRooms, room2);
+    room1->connectedNum++;
+    
 
     // Connect room2 to room1
     appendRoomToList(room2->connectedRooms, room1);
+    room2->connectedNum++;
 }
 
 void lockRoom(Room *room) {
