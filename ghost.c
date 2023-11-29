@@ -84,8 +84,7 @@ void checkGhostBoredom(GhostType *ghost) {
 }
 
 
-//need to change
+//done
 void cleanUpGhost(GhostType *ghost) {
-    // Implement if there are resources to be cleaned up
-    ghost = ghost;
+    free(ghost);
 }
