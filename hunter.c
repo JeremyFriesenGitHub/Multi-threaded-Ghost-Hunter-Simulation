@@ -37,8 +37,11 @@ void moveHunter(HunterType *hunter) {
 
     //switch hunters room
     hunterSwitchRoom(hunter, randomRoom);
+<<<<<<< HEAD
 
     l_hunterMove(hunter->name, hunter->currentRoom->name);
+=======
+>>>>>>> 88178263904046c87c93dbeb55de4dcb8a4ae422
 }
 
 void collectEvidence(HunterType *hunter) {
