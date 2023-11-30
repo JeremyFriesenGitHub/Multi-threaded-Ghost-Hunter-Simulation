@@ -23,6 +23,7 @@ void connectRooms(Room *room1, Room *room2) {
         // Handle null room pointers
         return;
     }
+    printf("\n\nRoom connect: %s", room1->name);
 
     // Connect room1 to room2
     appendRoomToList(room1->connectedRooms, room2);
@@ -118,6 +119,7 @@ void appendRoomToList(RoomNode *connectHead, Room *roomToAdd) {
 
     if (connectHead== NULL) {
         // First connection
+        printf("\nHead is empty: %s", roomToAdd->name);
         connectHead = newNode;
     } else {
         // Append to the end of the list

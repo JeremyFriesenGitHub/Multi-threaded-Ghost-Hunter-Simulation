@@ -19,7 +19,7 @@ all: $(MAIN)
 	@echo Simple ghost hunt simulator compiled
 
 $(MAIN): $(OBJS)
-	$(CC) $(CFLAGS) -o $(MAIN) $(OBJS) 
+	$(CC) $(CFLAGS) -o $(MAIN) $(OBJS) -pthread
 
 # Rule to create object files
 .c.o:

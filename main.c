@@ -5,12 +5,6 @@
     // 1. Initialize
 //int main(int argc, char** argv) {
 int main(){
-/*
-    //Check is there command line
-    if (argc > 1) {
-
-    }
-*/
     // Initialize the random number generator
     srand(time(NULL));
 
@@ -21,6 +15,7 @@ int main(){
     initHouse(&house);
     populateRooms(&house);
 
+    printf("Room in house: %s", house.rooms->room->name);
 
     HunterType hunters[NUM_HUNTERS]; // Assuming NUM_HUNTERS is 4
     GhostType ghost;
@@ -68,13 +63,21 @@ int main(){
         currentRoom = currentRoom->next;
     }
     initGhost(&ghost, randomGhost(), currentRoom->room);
-
+    int rc;
     printf("threading going to be made");
      // 1.5. Create one thread for each hunter and one thread for the ghost
     for (int i = 0; i < NUM_HUNTERS; i++) {
-        pthread_create(&hunterThreads[i], NULL, hunterFunction, &hunters[i]);
+        rc = pthread_create(&hunterThreads[i], NULL, hunterFunction, &hunters[i]);
+        if(rc){
+            printf("\nhunter %d", i);
+            return -1;
+        }
     }
-    pthread_create(&ghostThread, NULL, ghostFunction, &ghost);
+    rc = pthread_create(&ghostThread, NULL, ghostFunction, &ghost);
+    if(rc){
+        printf("\nghost");
+        return -1;
+    }
 
     // Join threads (wait for them to finish)
     for (int i = 0; i < NUM_HUNTERS; i++) {
@@ -133,16 +136,21 @@ int main(){
 
 void* hunterFunction(void *arg){
     HunterType *hunter = (HunterType * )arg;
-    printf("thread made");
-    while(C_TRUE){
+    printf("\nHunter room: %s", hunter->name);
+    /*while(C_TRUE){
         hunterAction(hunter);
-    }
+    }*/
+    return NULL;
 }
 
 void* ghostFunction(void *arg){
     GhostType *ghost = (GhostType * )arg;
-    printf("thread made");
-    while(C_TRUE){
+    printf("\nGhost room: %s", ghost->currentRoom->name);
+    /*while(C_TRUE){
+        hunterAction(hunter);
+    }*/
+    /*while(C_TRUE){
         ghostAction(ghost);
-    }
+    }*/
+    return NULL;
 }

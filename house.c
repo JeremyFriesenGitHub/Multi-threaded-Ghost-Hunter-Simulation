@@ -58,9 +58,8 @@ void populateRooms(HouseType* house) {
 
 void initHouse(HouseType *house) {
     EvidenceList *list = (EvidenceList *) malloc(sizeof(EvidenceList));
-    RoomNode *node = (RoomNode *) malloc(sizeof(RoomNode));
     initEvidenceList(list);
-    house->rooms = node;
+    house->rooms = NULL;
     house->hunters = NULL;
     house->sharedEvidenceList = list;
     house->numHunters = 0;
@@ -69,6 +68,7 @@ void initHouse(HouseType *house) {
 void addRoom(RoomNode *rooms, Room *room) {
     if (room == NULL) return;
     appendRoomToList(rooms, room);
+    printf("\nRoom added to house: %s", rooms->room->name);
 }
 
 /*
