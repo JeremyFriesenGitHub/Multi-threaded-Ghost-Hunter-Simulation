@@ -14,12 +14,12 @@ OBJS=$(SRCS:.c=.o)
 MAIN=ghost_hunt_simulator
 
 .PHONY: clean
-	
+
 all: $(MAIN)
 	@echo Simple ghost hunt simulator compiled
 
 $(MAIN): $(OBJS)
-	$(CC) $(CFLAGS) -o $(MAIN) $(OBJS)
+	$(CC) $(CFLAGS) -o $(MAIN) $(OBJS) 
 
 # Rule to create object files
 .c.o:

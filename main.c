@@ -70,7 +70,6 @@ int main(){
     initGhost(&ghost, randomGhost(), currentRoom->room);
 
     printf("threading going to be made");
-
      // 1.5. Create one thread for each hunter and one thread for the ghost
     for (int i = 0; i < NUM_HUNTERS; i++) {
         pthread_create(&hunterThreads[i], NULL, hunterFunction, &hunters[i]);
