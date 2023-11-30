@@ -142,9 +142,9 @@ int main(){
 void* hunterFunction(void *arg){
     HunterType *hunter = (HunterType * )arg;
     printf("\nHunter room: %s", hunter->currentRoom->name);
-    /*while(C_TRUE){
+    while(C_TRUE){
         hunterAction(hunter);
-    }*/
+    }
     return NULL;
 }
 

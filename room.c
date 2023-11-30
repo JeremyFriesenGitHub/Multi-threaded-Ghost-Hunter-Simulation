@@ -23,12 +23,10 @@ void connectRooms(Room *room1, Room *room2) {
         // Handle null room pointers
         return;
     }
-    printf("\n\nRoom connect: %s and %s", room1->name, room2->name);
 
     // Connect room1 to room2
     appendRoomToList(&room1->connectedRooms, room2);
     room1->connectedNum++;
-    printf("\nconnect num: %d", room1->connectedNum);
     
 
     // Connect room2 to room1
@@ -37,12 +35,10 @@ void connectRooms(Room *room1, Room *room2) {
 }
 
 void lockRoom(Room *room) {
-    printf("Lock room: %s", room->name);
     sem_wait(&room->roomLock);
 }
 
 void unlockRoom(Room *room) {
-    printf("unlock room: %s", room->name);
     sem_post(&room->roomLock);
 }
 
@@ -56,13 +52,15 @@ void hunterSwitchRoom(HunterType *hunter, int roomIndex){
         ind++;
         curr= curr->next;   
     }
+    
+    printf("\n\n%s go to room: %s\n\n", hunter->name, curr->room->name);
+    
+    //unlock the room
+    unlockRoom(hunter->currentRoom);
 
     //move hunter to new room
     removeHunterFromRoom(hunter, hunter->currentRoom);
     addHunterToRoom(hunter, curr->room);
-
-    //unlock the room
-    unlockRoom(hunter->currentRoom);
 }
 
 
@@ -77,15 +75,16 @@ void addHunterToRoom(HunterType *hunter, Room *room){
     newHunter->hunter = hunter;
 
     if(hunters != NULL){
-        //find tail of link list
-    while(hunters->next != NULL){
-        hunters = hunters ->next;
-    }
-    //add hunter to tail
-    hunters->next = newHunter;
-    hunter->currentRoom = room; 
+            //find tail of link list
+        while(hunters->next != NULL){
+            printf("%s", hunters->hunter->name);
+            hunters = hunters ->next;
+        }
+        //add hunter to tail
+        hunters->next = newHunter;
+        hunter->currentRoom = room; 
     }else{
-        hunters = newHunter;
+        room->hunters = newHunter;
     }
     
 
@@ -97,10 +96,11 @@ void removeHunterFromRoom(HunterType *hunter, Room *room){
     lockRoom(room);
     HunterNode *hunters = room->hunters;
     HunterNode *prev = NULL;
-
-    while(strcmp(hunters->hunter->name, hunter->name)!= 0){
+    printf("looking at %s ", hunters->hunter->name);
+    while(strcmp(hunters->hunter->name, hunter->name)!= 0 && hunters -> next != NULL){
         prev = hunters;
         hunters = hunters ->next;
+        printf("looking at %s ", hunters->hunter->name);
     }
 
     //check is hunter first
@@ -119,7 +119,6 @@ void appendRoomToList(RoomNode **connectHead, Room *roomToAdd) {
     RoomNode *newNode = (RoomNode *)malloc(sizeof(RoomNode));
     if (newNode == NULL) {
         // Handle memory allocation failure
-        printf("new node error");
         return;
     }
 
@@ -128,19 +127,14 @@ void appendRoomToList(RoomNode **connectHead, Room *roomToAdd) {
 
     if ((*connectHead)== NULL) {
         // First connection
-        printf("\nHead is empty: %s", roomToAdd->name);
         (*connectHead) = newNode;
     } else {
         // Append to the end of the list
         RoomNode *current = (*connectHead);
-        printf("\nrooms: ");
         while (current->next != NULL) {
-            printf("    %s ", current->room->name);
             current = current->next;
         }
-        printf("    %s ", current->room->name);
         current->next = newNode;
-        printf("    %s ", current->next->room->name);
     }
 }
 

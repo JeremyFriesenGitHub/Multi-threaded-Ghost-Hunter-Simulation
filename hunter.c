@@ -7,6 +7,7 @@ void initHunter(HunterType *hunter, const char *name, Room *startingRoom, Eviden
     hunter->sharedEvidence = sharedEvidence;
     hunter->fear = 0;
     hunter->boredom = 0;
+    addHunterToRoom(hunter, startingRoom);
     l_hunterInit( hunter->name,  hunter->equipmentType);
 }
 
@@ -40,6 +41,7 @@ void hunterAction(HunterType *hunter) {
 
 void moveHunter(HunterType *hunter) {
     int randomRoom = randInt(0, hunter->currentRoom->connectedNum);
+    printf("\n%s go to index: %d", hunter->name,randomRoom);
 
     //switch hunters room
     hunterSwitchRoom(hunter, randomRoom);

@@ -32,7 +32,6 @@ void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom) {
 
 void ghostAction(GhostType *ghost) {
     int action = randInt(0, 3); // Assuming randInt generates a random integer between 0 and 2
-    printf("\n\nGhost action:%d", action);
     switch(action) {
         case 0: // Do nothing
             break;
@@ -51,26 +50,22 @@ void ghostAction(GhostType *ghost) {
 
 void moveGhost(GhostType *ghost) {
     lockRoom(ghost->currentRoom);
-    int roomIndex = randInt(0, ghost->currentRoom->connectedNum);
-    printf("\nroom index:%d", roomIndex);
+    int roomIndex = randInt(0, (ghost->currentRoom->connectedNum));
     RoomNode *connectedRooms = ghost->currentRoom->connectedRooms;
-    printf("\n connect num: %d", ghost->currentRoom->connectedNum);
     // Count the number of connected rooms
     RoomNode *current = connectedRooms;
 
     if (ghost->currentRoom->connectedNum == 0) {
-        printf("I left");
         unlockRoom(ghost->currentRoom);
         return; // No connected rooms
     }
 
     // Find the room to move to
     for (int i = 0; i < roomIndex && current -> next != NULL; i++) {
-        printf("rooms current: %s", current->room->name);
         current = current->next;
     }
-    //ghost->currentRoom->ghost = NULL;
-    sleep(5000);
+   
+    ghost->currentRoom->ghost = NULL;
     unlockRoom(ghost->currentRoom);
 
 
