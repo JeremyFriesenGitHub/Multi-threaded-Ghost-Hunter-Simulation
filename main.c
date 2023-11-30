@@ -150,8 +150,8 @@ void* hunterFunction(void *arg){
 void* ghostFunction(void *arg){
     GhostType *ghost = (GhostType * )arg;
     printf("\nGhost room: %s", ghost->currentRoom->name);
-    /*while(C_TRUE){
+    while(C_TRUE){
         ghostAction(ghost);
-    }*/
+    }
     return NULL;
 }

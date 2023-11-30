@@ -25,10 +25,10 @@ void hunterAction(HunterType *hunter) {
             moveHunter(hunter);
             break;
         case 1: // Collect evidence
-            //collectEvidence(hunter);
+            collectEvidence(hunter);
             break;
         case 2: // Review evidence
-            //reviewEvidence(hunter);
+            reviewEvidence(hunter);
             break;
         case 3: // Do nothing
             break;

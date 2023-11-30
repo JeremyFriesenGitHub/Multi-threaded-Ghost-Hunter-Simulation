@@ -16,14 +16,13 @@ int getEvidence(EvidenceList *list, EvidenceType evidence) {
     EvidenceNode *curr = list->head;
     while(curr != NULL){
         if(curr -> evidence == evidence){
+            sem_post(&list->evidenceMutex); // Unlock the semaphore
             return C_TRUE;
         }
         curr = curr->next;  // find evidenceNode contain evidence
     }
-
-    return C_FALSE;
-
     sem_post(&list->evidenceMutex); // Unlock the semaphore
+    return C_FALSE;
 }
 
 void addEvidence(EvidenceList *list, EvidenceType evidence){
