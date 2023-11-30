@@ -10,6 +10,11 @@ void initHunter(HunterType *hunter, const char *name, Room *startingRoom, Eviden
     l_hunterInit( hunter->name,  hunter->equipmentType);
 }
 
+void initHunterNode(HunterNode *node, HunterType *hunter){
+    node->hunter = hunter;
+    node->next = NULL;
+}
+
 
 void hunterAction(HunterType *hunter) {
     int action = randInt(0, 3); // Assuming randInt is a function that generates a random integer
@@ -29,6 +34,7 @@ void hunterAction(HunterType *hunter) {
     }
 
     checkHunterFearAndBoredom(hunter);
+    usleep(HUNTER_WAIT);
 }
 
 
@@ -100,12 +106,14 @@ void reviewEvidence(HunterType *hunter) {
 }
 
 void checkHunterFearAndBoredom(HunterType *hunter) {
+    lockRoom(hunter->currentRoom);
     if (hunter->currentRoom->ghost != NULL) {
         hunter->fear++;
         hunter->boredom = 0;
     } else {
         hunter->boredom++;
     }
+    unlockRoom(hunter->currentRoom);
 
     if (hunter->fear >= FEAR_MAX){
         l_hunterExit(hunter->name, LOG_FEAR);
@@ -116,6 +124,7 @@ void checkHunterFearAndBoredom(HunterType *hunter) {
         l_hunterExit(hunter->name, LOG_BORED);
         pthread_exit(NULL);
     }
+    
 }
 
 //
@@ -130,4 +139,52 @@ void cleanupHunters(HunterNode *hunters){
         free(curr->hunter); 
     }
 }
+/*
+void *hunterThreadFunction(void *arg) {
+    HunterType *hunter = (HunterType *)arg;
 
+    while (1) {
+        lockRoom(hunter->currentRoom);
+
+        // 3.1. Interaction with ghost
+        if (hunter->currentRoom->ghost != NULL) {
+            hunter->fear += 1; // Increase fear
+            hunter->boredom = 0; // Reset boredom timer
+        } else {
+            hunter->boredom += 1; // Increase boredom
+        }
+
+        unlockRoom(hunter->currentRoom);
+
+        int action = randInt(0, 2); // Randomly choose an action: collect, move, or review
+
+        // 3.2. Actions
+        if (action == 0) { // Collect evidence
+            collectEvidence(hunter);
+        } else if (action == 1) { // Move
+            moveHunter(hunter);
+        } else if (action == 2) { // Review evidence
+            reviewEvidence(hunter);
+            // Check if the hunter has identified the ghost
+            if (checkEvidenceSufficient(hunter)) {
+                break; // Exit the thread
+            }
+        }
+
+        // 3.3. Check fear level
+        if (hunter->fear >= FEAR_MAX) {
+            break; // Exit the thread
+        }
+
+        // 3.4. Check boredom level
+        if (hunter->boredom >= BOREDOM_MAX) {
+            break; // Exit the thread
+        }
+
+        // Optional: sleep for a short duration
+        usleep(HUNTER_WAIT); // HUNTER_WAIT is a predefined constant for wait time
+    }
+
+    return NULL;
+}
+*/

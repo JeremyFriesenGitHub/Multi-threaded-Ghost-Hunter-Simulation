@@ -74,7 +74,6 @@ typedef struct House {
     HunterNode *hunters; // Array or linked list of hunters
     EvidenceList *sharedEvidenceList; // Array or list of shared evidence
     int numHunters; // Number of hunters in the house
-    int numSharedEvidence; // Number of evidence in shared list
 } HouseType;
 
 typedef struct Ghost {
@@ -121,6 +120,11 @@ void removeHunterFromRoom(HunterType *hunter, Room *room); //remove hunter from 
 void lockRoom(Room *room);
 void unlockRoom(Room *room);
 void checkGhostBoredom(GhostType *ghost);
+void initHunterNode(HunterNode *node, HunterType *hunter);
+void* ghostFunction(void *arg);
+void* hunterFunction(void *arg);
+void hunterAction(HunterType *hunter);
+void ghostAction(GhostType *ghost);
 
 //cleanup function
 void cleanupRooms(RoomNode *);

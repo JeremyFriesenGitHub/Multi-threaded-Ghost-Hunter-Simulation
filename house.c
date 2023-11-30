@@ -64,7 +64,6 @@ void initHouse(HouseType *house) {
     house->hunters = NULL;
     house->sharedEvidenceList = list;
     house->numHunters = 0;
-    house->numSharedEvidence = 0;
 }
 
 void addRoom(RoomNode *rooms, Room *room) {

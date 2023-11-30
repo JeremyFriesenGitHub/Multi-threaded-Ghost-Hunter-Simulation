@@ -25,6 +25,7 @@ void ghostAction(GhostType *ghost) {
             break;
     }
     checkGhostBoredom(ghost);
+    usleep(GHOST_WAIT);
 }
 
 void moveGhost(GhostType *ghost) {
@@ -62,6 +63,7 @@ void moveGhost(GhostType *ghost) {
 
 
 void leaveEvidence(GhostType *ghost) {
+    lockRoom(ghost->currentRoom);
     if (ghost->currentRoom->evidenceList->numEvidence< MAX_EVIDENCE) { // MAX_EVIDENCE is the max number of evidence a room can hold
         int evidenceIndex = randInt(0, 2); // Randomly select one of the ghost's valid evidence types
         EvidenceType evidence = ghost->validEvidenceTypes[evidenceIndex];
@@ -69,6 +71,7 @@ void leaveEvidence(GhostType *ghost) {
         addEvidenceToRoom(ghost->currentRoom, evidence);
         l_ghostEvidence(evidence, ghost->currentRoom->name);
     }
+    unlockRoom(ghost->currentRoom);
 }
 
 void checkGhostBoredom(GhostType *ghost) {
@@ -87,5 +90,55 @@ void checkGhostBoredom(GhostType *ghost) {
 
 //done
 void cleanUpGhost(GhostType *ghost) {
-    free(ghost);
+    free(ghost);/*
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a8a2423 (Updated Main Function WorkFlow)*/
+}
+
+
+void *ghostThreadFunction(void *arg) {
+    GhostType *ghost = (GhostType *)arg;
+
+    while (1) {
+        lockRoom(ghost->currentRoom);
+
+        // 2.1. Ghost in the same room as a hunter
+        if (ghost->currentRoom->hunters != NULL) {
+            ghost->boredomTimer = 0; // Reset boredom timer
+            int action = randInt(0, 1); // Randomly choose to leave evidence or do nothing
+
+            if (action == 0) { // Leave evidence
+                leaveEvidence(ghost);
+            }
+            // Else, do nothing
+        }
+        // 2.2. Ghost not in the same room as a hunter
+        else {
+            ghost->boredomTimer++; // Increase boredom counter
+            int action = randInt(0, 2); // Randomly choose action
+
+            if (action == 0) { // Move to an adjacent room
+                moveGhost(ghost);
+            } 
+            else if (action == 1) { // Leave evidence
+                leaveEvidence(ghost);
+            }
+            // Else, do nothing
+        }
+
+        unlockRoom(ghost->currentRoom);
+
+        // 2.5. Check boredom level
+        if (ghost->boredomTimer >= BOREDOM_MAX) {
+            break; // Exit the thread
+        }
+
+        // Optional: sleep for a short duration
+        usleep(GHOST_WAIT); // GHOST_WAIT is a predefined constant for wait time
+    }
+
+    return NULL;
+
 }
