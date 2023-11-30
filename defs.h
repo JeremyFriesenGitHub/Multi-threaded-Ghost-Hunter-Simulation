@@ -24,6 +24,7 @@ typedef struct EvidenceNode EvidenceNode;
 typedef enum GhostClass GhostClass;
 typedef struct RoomNode RoomNode;
 typedef struct Room Room;
+typedef struct HunterNode HunterNode; 
 typedef struct Hunter HunterType; // Forward declaration
 typedef struct Ghost GhostType; // Forward declaration
 typedef struct EvidenceList EvidenceList;
@@ -93,6 +94,12 @@ typedef struct Hunter {
 } HunterType;
 
 
+//init Function
+void initEvidenceList(EvidenceList *list);
+void initHouse(HouseType *house);
+void initHunter(HunterType *hunter, const char *name, Room *startingRoom, EvidenceType equipmentType, EvidenceList *sharedEvidence);
+void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom);
+
 //function declarations
 Room *createRoom(const char *name);
 void connectRooms(Room *room1, Room *room2);
@@ -100,8 +107,6 @@ void addRoom(RoomNode *rooms, Room *room);
 void appendRoomToList(RoomNode *head, Room *room);
 void leaveEvidence(GhostType *ghost);
 void moveGhost(GhostType *ghost);
-void initEvidenceList(EvidenceList *list);
-void initHouse(HouseType *house);
 void populateRooms(HouseType* house);
 void addEvidenceToRoom(Room *room, EvidenceType evidence);
 void moveHunter(HunterType *hunter);
@@ -115,6 +120,7 @@ void addHunterToRoom(HunterType *hunter, Room *room); //add hunter to room
 void removeHunterFromRoom(HunterType *hunter, Room *room); //remove hunter from room
 void lockRoom(Room *room);
 void unlockRoom(Room *room);
+void checkGhostBoredom(GhostType *ghost);
 
 //cleanup function
 void cleanupRooms(RoomNode *);

@@ -50,13 +50,13 @@ void moveGhost(GhostType *ghost) {
     }
     ghost->currentRoom->ghost = NULL;
 
-    unlockRooom(ghost->currentRoom);
+    unlockRoom(ghost->currentRoom);
     lockRoom(current->room);
 
     ghost->currentRoom = current->room;
     ghost->currentRoom->ghost=ghost;
     l_ghostMove(ghost->currentRoom->name);
-    unlockRooom(ghost->currentRoom);
+    unlockRoom(ghost->currentRoom);
 }
 
 

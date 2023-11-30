@@ -1,6 +1,6 @@
 #include "defs.h"
 
-void initHunter(HunterType *hunter, const char *name, Room *startingRoom, EvidenceType equipmentType, EvidenceType *sharedEvidence) {
+void initHunter(HunterType *hunter, const char *name, Room *startingRoom, EvidenceType equipmentType, EvidenceList *sharedEvidence) {
     strncpy(hunter->name, name, MAX_STR);
     hunter->currentRoom = startingRoom;
     hunter->equipmentType = equipmentType;
@@ -92,8 +92,9 @@ void reviewEvidence(HunterType *hunter) {
         }
     }
 
-    l_hunterReview(hunter->name, class);
+    l_hunterReview(hunter->name, LOG_INSUFFICIENT);
     if(class != GH_UNKNOWN){
+        l_hunterReview(hunter->name, LOG_SUFFICIENT);
         pthread_exit(NULL);
     }
 }
