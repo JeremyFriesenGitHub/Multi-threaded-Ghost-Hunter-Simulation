@@ -24,6 +24,7 @@ void ghostAction(GhostType *ghost) {
             }
             break;
     }
+    checkGhostBoredom(ghost);
 }
 
 void moveGhost(GhostType *ghost) {

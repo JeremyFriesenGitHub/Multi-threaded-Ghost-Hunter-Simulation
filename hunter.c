@@ -87,13 +87,15 @@ void reviewEvidence(HunterType *hunter) {
         if (getEvidence(hunter->sharedEvidence, FINGERPRINTS) == C_TRUE){
             if (getEvidence(hunter->sharedEvidence, SOUND) == C_TRUE){
                 class = PHANTOM;
+                
             }
         }
     }
 
-    //exit thread somehow if class not GH_UNKNOWN
-
     l_hunterReview(hunter->name, class);
+    if(class != GH_UNKNOWN){
+        pthread_exit(NULL);
+    }
 }
 
 void checkHunterFearAndBoredom(HunterType *hunter) {
