@@ -70,9 +70,9 @@ typedef struct EvidenceList {
 
 
 typedef struct House {
-    RoomNode *rooms; // Linked list of all rooms in the house
-    HunterNode *hunters; // Array or linked list of hunters
-    EvidenceList *sharedEvidenceList; // Array or list of shared evidence
+    struct RoomNode *rooms; // Linked list of all rooms in the house
+    struct HunterNode *hunters; // Array or linked list of hunters
+    struct EvidenceList *sharedEvidenceList; // Array or list of shared evidence
     int numHunters; // Number of hunters in the house
 } HouseType;
 
@@ -102,8 +102,8 @@ void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom);
 //function declarations
 Room *createRoom(const char *name);
 void connectRooms(Room *room1, Room *room2);
-void addRoom(RoomNode *rooms, Room *room);
-void appendRoomToList(RoomNode *head, Room *room);
+void addRoom(RoomNode **rooms, Room *room);
+void appendRoomToList(RoomNode **head, Room *room);
 void leaveEvidence(GhostType *ghost);
 void moveGhost(GhostType *ghost);
 void populateRooms(HouseType* house);

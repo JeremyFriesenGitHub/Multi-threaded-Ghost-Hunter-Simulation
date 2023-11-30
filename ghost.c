@@ -5,13 +5,34 @@ void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom) {
     ghost->type = type;
     ghost->currentRoom = startingRoom;
     ghost->boredomTimer = 0;
+    if(type == 0){
+        ghost->validEvidenceTypes[0] = 0;
+        ghost->validEvidenceTypes[1] = 1;
+        ghost->validEvidenceTypes[2] = 2;
+    }
+    if(type == 1){
+        ghost->validEvidenceTypes[0] = 0;
+        ghost->validEvidenceTypes[1] = 1;
+        ghost->validEvidenceTypes[2] = 3;
+    }
+    if(type == 2){
+        ghost->validEvidenceTypes[0] = 0;
+        ghost->validEvidenceTypes[1] = 2;
+        ghost->validEvidenceTypes[2] = 3;
+    }
+    if(type == 3){
+        ghost->validEvidenceTypes[0] = 1;
+        ghost->validEvidenceTypes[1] = 2;
+        ghost->validEvidenceTypes[2] = 3;
+    }
+
     // Initialize ghost's validEvidenceTypes based on its type
     l_ghostInit(type, ghost->currentRoom->name);
 }
 
 void ghostAction(GhostType *ghost) {
-    int action = randInt(0, 2); // Assuming randInt generates a random integer between 0 and 2
-
+    int action = randInt(0, 3); // Assuming randInt generates a random integer between 0 and 2
+    printf("\n\nGhost action:%d", action);
     switch(action) {
         case 0: // Do nothing
             break;
@@ -30,28 +51,29 @@ void ghostAction(GhostType *ghost) {
 
 void moveGhost(GhostType *ghost) {
     lockRoom(ghost->currentRoom);
+    int roomIndex = randInt(0, ghost->currentRoom->connectedNum);
+    printf("\nroom index:%d", roomIndex);
     RoomNode *connectedRooms = ghost->currentRoom->connectedRooms;
-    int numConnectedRooms = 0;
-
+    printf("\n connect num: %d", ghost->currentRoom->connectedNum);
     // Count the number of connected rooms
     RoomNode *current = connectedRooms;
-    while (current != NULL) {
-        numConnectedRooms++;
-        current = current->next;
+
+    if (ghost->currentRoom->connectedNum == 0) {
+        printf("I left");
+        unlockRoom(ghost->currentRoom);
+        return; // No connected rooms
     }
-
-    if (numConnectedRooms == 0) return; // No connected rooms
-
-    int roomIndex = randInt(0, numConnectedRooms - 1);
-    current = connectedRooms;
 
     // Find the room to move to
-    for (int i = 0; i < roomIndex; i++) {
+    for (int i = 0; i < roomIndex && current -> next != NULL; i++) {
+        printf("rooms current: %s", current->room->name);
         current = current->next;
     }
-    ghost->currentRoom->ghost = NULL;
-
+    //ghost->currentRoom->ghost = NULL;
+    sleep(5000);
     unlockRoom(ghost->currentRoom);
+
+
     lockRoom(current->room);
 
     ghost->currentRoom = current->room;
@@ -65,7 +87,7 @@ void moveGhost(GhostType *ghost) {
 void leaveEvidence(GhostType *ghost) {
     lockRoom(ghost->currentRoom);
     if (ghost->currentRoom->evidenceList->numEvidence< MAX_EVIDENCE) { // MAX_EVIDENCE is the max number of evidence a room can hold
-        int evidenceIndex = randInt(0, 2); // Randomly select one of the ghost's valid evidence types
+        int evidenceIndex = randInt(0, 3); // Randomly select one of the ghost's valid evidence types
         EvidenceType evidence = ghost->validEvidenceTypes[evidenceIndex];
 
         addEvidenceToRoom(ghost->currentRoom, evidence);

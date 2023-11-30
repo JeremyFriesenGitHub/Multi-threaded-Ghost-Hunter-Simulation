@@ -46,12 +46,19 @@ void addEvidence(EvidenceList *list, EvidenceType evidence){
     }
 
 
-    //add to tail
-    if(valid == C_TRUE){
-        list->tail-> next = newEvidence;
+
+    if(list->head != NULL){
+        //add to tail
+        if(valid == C_TRUE){
+            list->tail-> next = newEvidence;
+            list->tail = newEvidence;
+            list->numEvidence++;
+        }
+    }else{
         list->tail = newEvidence;
-        list->numEvidence++;
+        list->head = newEvidence;
     }
+        
         
     
     sem_post(&list->evidenceMutex); 

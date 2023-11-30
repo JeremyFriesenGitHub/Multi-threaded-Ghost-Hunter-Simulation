@@ -17,8 +17,8 @@ void initHunterNode(HunterNode *node, HunterType *hunter){
 
 
 void hunterAction(HunterType *hunter) {
-    int action = randInt(0, 3); // Assuming randInt is a function that generates a random integer
-
+    int action = randInt(0, 4); // Assuming randInt is a function that generates a random integer
+    printf("\nHunter %s action: %d", hunter -> name, action);
     switch(action) {
         case 0: // Move
             moveHunter(hunter);
@@ -39,7 +39,7 @@ void hunterAction(HunterType *hunter) {
 
 
 void moveHunter(HunterType *hunter) {
-    int randomRoom = randInt(0, (hunter->currentRoom->connectedNum - 1));
+    int randomRoom = randInt(0, hunter->currentRoom->connectedNum);
 
     //switch hunters room
     hunterSwitchRoom(hunter, randomRoom);

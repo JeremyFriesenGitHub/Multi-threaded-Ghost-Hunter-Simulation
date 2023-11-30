@@ -5,6 +5,12 @@
     // 1. Initialize
 //int main(int argc, char** argv) {
 int main(){
+/*
+    //Check is there command line
+    if (argc > 1) {
+
+    }
+*/
     // Initialize the random number generator
     srand(time(NULL));
 
@@ -64,7 +70,6 @@ int main(){
     }
     initGhost(&ghost, randomGhost(), currentRoom->room);
     int rc;
-    printf("threading going to be made");
      // 1.5. Create one thread for each hunter and one thread for the ghost
     for (int i = 0; i < NUM_HUNTERS; i++) {
         rc = pthread_create(&hunterThreads[i], NULL, hunterFunction, &hunters[i]);
@@ -136,7 +141,7 @@ int main(){
 
 void* hunterFunction(void *arg){
     HunterType *hunter = (HunterType * )arg;
-    printf("\nHunter room: %s", hunter->name);
+    printf("\nHunter room: %s", hunter->currentRoom->name);
     /*while(C_TRUE){
         hunterAction(hunter);
     }*/
@@ -146,11 +151,8 @@ void* hunterFunction(void *arg){
 void* ghostFunction(void *arg){
     GhostType *ghost = (GhostType * )arg;
     printf("\nGhost room: %s", ghost->currentRoom->name);
-    /*while(C_TRUE){
-        hunterAction(hunter);
-    }*/
-    /*while(C_TRUE){
+    while(C_TRUE){
         ghostAction(ghost);
-    }*/
+    }
     return NULL;
 }

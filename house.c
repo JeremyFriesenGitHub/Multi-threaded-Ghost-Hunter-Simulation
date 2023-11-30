@@ -40,19 +40,20 @@ void populateRooms(HouseType* house) {
     connectRooms(garage, utility_room);
 
     // Add each room to the house's room list
-    addRoom(house->rooms, van);
-    addRoom(house->rooms, hallway);
-    addRoom(house->rooms, master_bedroom);
-    addRoom(house->rooms, boys_bedroom);
-    addRoom(house->rooms, bathroom);
-    addRoom(house->rooms, basement);
-    addRoom(house->rooms, basement_hallway);
-    addRoom(house->rooms, right_storage_room);
-    addRoom(house->rooms, left_storage_room);
-    addRoom(house->rooms, kitchen);
-    addRoom(house->rooms, living_room);
-    addRoom(house->rooms, garage);
-    addRoom(house->rooms, utility_room);
+    addRoom(&house->rooms, van);
+    printf("rooms added: %s", house->rooms->room->name);
+    addRoom(&house->rooms, hallway);
+    addRoom(&house->rooms, master_bedroom);
+    addRoom(&house->rooms, boys_bedroom);
+    addRoom(&house->rooms, bathroom);
+    addRoom(&house->rooms, basement);
+    addRoom(&house->rooms, basement_hallway);
+    addRoom(&house->rooms, right_storage_room);
+    addRoom(&house->rooms, left_storage_room);
+    addRoom(&house->rooms, kitchen);
+    addRoom(&house->rooms, living_room);
+    addRoom(&house->rooms, garage);
+    addRoom(&house->rooms, utility_room);
 }
 
 
@@ -65,10 +66,22 @@ void initHouse(HouseType *house) {
     house->numHunters = 0;
 }
 
-void addRoom(RoomNode *rooms, Room *room) {
+void addRoom(RoomNode **rooms, Room *room) {
     if (room == NULL) return;
-    appendRoomToList(rooms, room);
-    printf("\nRoom added to house: %s", rooms->room->name);
+    RoomNode *newNode = (RoomNode *)malloc(sizeof(RoomNode));
+    newNode->room = room;
+    newNode->next = NULL;
+    if ((*rooms) == NULL){
+        (*rooms) = newNode;
+    }else{
+        RoomNode *current = (*rooms);
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+    //appendRoomToList(rooms, room);
+    //printf("\nRoom added to house: %s", (*rooms)->room->name);
 }
 
 /*
