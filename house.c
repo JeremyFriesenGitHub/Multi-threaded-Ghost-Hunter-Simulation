@@ -41,7 +41,6 @@ void populateRooms(HouseType* house) {
 
     // Add each room to the house's room list
     addRoom(&house->rooms, van);
-    printf("rooms added: %s", house->rooms->room->name);
     addRoom(&house->rooms, hallway);
     addRoom(&house->rooms, master_bedroom);
     addRoom(&house->rooms, boys_bedroom);

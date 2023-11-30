@@ -19,16 +19,16 @@ void initHunterNode(HunterNode *node, HunterType *hunter){
 
 void hunterAction(HunterType *hunter) {
     int action = randInt(0, 4); // Assuming randInt is a function that generates a random integer
-    printf("\nHunter %s action: %d", hunter -> name, action);
+    printf("\n%s took %d", hunter->name, action);
     switch(action) {
         case 0: // Move
             moveHunter(hunter);
             break;
         case 1: // Collect evidence
-            collectEvidence(hunter);
+            //collectEvidence(hunter);
             break;
         case 2: // Review evidence
-            reviewEvidence(hunter);
+            //reviewEvidence(hunter);
             break;
         case 3: // Do nothing
             break;
@@ -41,7 +41,6 @@ void hunterAction(HunterType *hunter) {
 
 void moveHunter(HunterType *hunter) {
     int randomRoom = randInt(0, hunter->currentRoom->connectedNum);
-    printf("\n%s go to index: %d", hunter->name,randomRoom);
 
     //switch hunters room
     hunterSwitchRoom(hunter, randomRoom);

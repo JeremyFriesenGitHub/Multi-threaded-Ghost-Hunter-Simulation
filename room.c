@@ -35,10 +35,12 @@ void connectRooms(Room *room1, Room *room2) {
 }
 
 void lockRoom(Room *room) {
+    printf("\n%s is lock", room->name);
     sem_wait(&room->roomLock);
 }
 
 void unlockRoom(Room *room) {
+    printf("\n%s is unlock", room->name);
     sem_post(&room->roomLock);
 }
 
@@ -53,13 +55,13 @@ void hunterSwitchRoom(HunterType *hunter, int roomIndex){
         curr= curr->next;   
     }
     
-    printf("\n\n%s go to room: %s\n\n", hunter->name, curr->room->name);
     
     //unlock the room
     unlockRoom(hunter->currentRoom);
 
     //move hunter to new room
     removeHunterFromRoom(hunter, hunter->currentRoom);
+    hunter->currentRoom = curr -> room;
     addHunterToRoom(hunter, curr->room);
 }
 
@@ -77,7 +79,6 @@ void addHunterToRoom(HunterType *hunter, Room *room){
     if(hunters != NULL){
             //find tail of link list
         while(hunters->next != NULL){
-            printf("%s", hunters->hunter->name);
             hunters = hunters ->next;
         }
         //add hunter to tail
@@ -96,11 +97,9 @@ void removeHunterFromRoom(HunterType *hunter, Room *room){
     lockRoom(room);
     HunterNode *hunters = room->hunters;
     HunterNode *prev = NULL;
-    printf("looking at %s ", hunters->hunter->name);
     while(strcmp(hunters->hunter->name, hunter->name)!= 0 && hunters -> next != NULL){
         prev = hunters;
         hunters = hunters ->next;
-        printf("looking at %s ", hunters->hunter->name);
     }
 
     //check is hunter first

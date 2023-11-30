@@ -21,7 +21,6 @@ int main(){
     initHouse(&house);
     populateRooms(&house);
 
-    printf("Room in house: %s", house.rooms->room->name);
 
     HunterType hunters[NUM_HUNTERS]; // Assuming NUM_HUNTERS is 4
     GhostType ghost;
@@ -32,7 +31,7 @@ int main(){
     for (int i = 0; i < NUM_HUNTERS; i++) {
         printf("Enter name for hunter %d: ", i + 1);
         scanf("%63s", hunterName); // MAX_STR is assumed to be 64
-        initHunter(&hunters[i], hunterName, house.rooms->room, randInt(0, EV_COUNT), house.sharedEvidenceList);
+        initHunter(&hunters[i], hunterName, house.rooms->room, i, house.sharedEvidenceList);
     }
 
 
@@ -141,7 +140,7 @@ int main(){
 
 void* hunterFunction(void *arg){
     HunterType *hunter = (HunterType * )arg;
-    printf("\nHunter room: %s", hunter->currentRoom->name);
+    printf("\n%s Hunter room: %s",hunter->name, hunter->currentRoom->name);
     while(C_TRUE){
         hunterAction(hunter);
     }
@@ -151,8 +150,8 @@ void* hunterFunction(void *arg){
 void* ghostFunction(void *arg){
     GhostType *ghost = (GhostType * )arg;
     printf("\nGhost room: %s", ghost->currentRoom->name);
-    while(C_TRUE){
+    /*while(C_TRUE){
         ghostAction(ghost);
-    }
+    }*/
     return NULL;
 }

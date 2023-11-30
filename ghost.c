@@ -32,6 +32,7 @@ void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom) {
 
 void ghostAction(GhostType *ghost) {
     int action = randInt(0, 3); // Assuming randInt generates a random integer between 0 and 2
+    printf("\nghost action:%d",action);
     switch(action) {
         case 0: // Do nothing
             break;
@@ -41,6 +42,8 @@ void ghostAction(GhostType *ghost) {
         case 2: // Move
             if (ghost->currentRoom->hunters == NULL) { // Assuming hunters is NULL if no hunter in the room
                 moveGhost(ghost);
+            }else{
+                printf("I see a hunter%s", ghost->currentRoom->hunters->hunter->currentRoom->name);
             }
             break;
     }
