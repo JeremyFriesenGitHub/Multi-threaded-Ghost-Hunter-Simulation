@@ -139,13 +139,11 @@ void cleanupRooms(RoomNode *rooms) {
     if(rooms == NULL) return ;
     RoomNode *curr = rooms;
     RoomNode *temp = curr->next;
-    printf("\nfree %s", curr->room->name);
     cleanupRoom(curr->room);
     free(curr);
     while (temp != NULL) {
         curr = temp; 
         temp = temp->next;
-        printf("\nfree %s", curr->room->name);
         cleanupRoom(curr->room); 
         free(curr);
     }

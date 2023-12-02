@@ -13,9 +13,9 @@
 #define C_TRUE          1
 #define C_FALSE         0
 #define HUNTER_WAIT     3500
-#define GHOST_WAIT      300
+#define GHOST_WAIT      1500
 #define NUM_HUNTERS     4
-#define FEAR_MAX        100      
+#define FEAR_MAX        10      
 #define LOGGING         C_TRUE
 #define MAX_EVIDENCE    100
 

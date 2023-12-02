@@ -85,8 +85,10 @@ void reviewEvidence(HunterType *hunter) {
 
         //Check is ghost BULLIES
         }else if (getEvidence(hunter->sharedEvidence, FINGERPRINTS) == C_TRUE){
+            if (getEvidence(hunter->sharedEvidence, SOUND) == C_TRUE){
                 class = BULLIES;
             }
+        }
 
     //Check is it phantom
     }else if(getEvidence(hunter->sharedEvidence, TEMPERATURE) == C_TRUE){
@@ -97,12 +99,12 @@ void reviewEvidence(HunterType *hunter) {
             }
         }
     }
-
-    l_hunterReview(hunter->name, LOG_INSUFFICIENT);
     if(class != GH_UNKNOWN){
         removeHunterFromRoom(hunter, hunter->currentRoom);
         l_hunterReview(hunter->name, LOG_SUFFICIENT);
         pthread_exit(NULL);
+    }else{
+        l_hunterReview(hunter->name, LOG_INSUFFICIENT);
     }
 }
 
@@ -142,52 +144,10 @@ void cleanupHunters(HunterNode *hunters){
         free(curr);
     }
 }
-/*
-void *hunterThreadFunction(void *arg) {
-    HunterType *hunter = (HunterType *)arg;
-
-    while (1) {
-        lockRoom(hunter->currentRoom);
-
-        // 3.1. Interaction with ghost
-        if (hunter->currentRoom->ghost != NULL) {
-            hunter->fear += 1; // Increase fear
-            hunter->boredom = 0; // Reset boredom timer
-        } else {
-            hunter->boredom += 1; // Increase boredom
-        }
-
-        unlockRoom(hunter->currentRoom);
-
-        int action = randInt(0, 2); // Randomly choose an action: collect, move, or review
-
-        // 3.2. Actions
-        if (action == 0) { // Collect evidence
-            collectEvidence(hunter);
-        } else if (action == 1) { // Move
-            moveHunter(hunter);
-        } else if (action == 2) { // Review evidence
-            reviewEvidence(hunter);
-            // Check if the hunter has identified the ghost
-            if (checkEvidenceSufficient(hunter)) {
-                break; // Exit the thread
-            }
-        }
-
-        // 3.3. Check fear level
-        if (hunter->fear >= FEAR_MAX) {
-            break; // Exit the thread
-        }
-
-        // 3.4. Check boredom level
-        if (hunter->boredom >= BOREDOM_MAX) {
-            break; // Exit the thread
-        }
-
-        // Optional: sleep for a short duration
-        usleep(HUNTER_WAIT); // HUNTER_WAIT is a predefined constant for wait time
+void* hunterFunction(void *arg){
+    HunterType *hunter = (HunterType * )arg;
+    while(C_TRUE){
+        hunterAction(hunter);
     }
-
     return NULL;
 }
-*/

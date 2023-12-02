@@ -122,42 +122,40 @@ int main(){
     }
 
     // 4.5. & 4.6. Check if ghost is correctly identified
-    /*GhostClass identifiedGhost = identifyGhost(collectedEvidence);
-    if (identifiedGhost != GH_UNKNOWN) {
-        char ev_str[MAX_STR];
-        ghostToString(identifiedGhost, ev_str);
-        printf("Identified ghost: %s\n", ev_str);
-        printf("Does it match the actual ghost? %s\n", identifiedGhost == ghost.type ? "Yes" : "No");
-    }*/
+    //Check if ghost is poltergeist or banshee
+    GhostClass class = GH_UNKNOWN;
+    if (getEvidence(hunters[0].sharedEvidence, EMF) == C_TRUE){
+        if (getEvidence(hunters[0].sharedEvidence, TEMPERATURE) == C_TRUE){
+            
+            if (getEvidence(hunters[0].sharedEvidence, SOUND) == C_TRUE){
+                class = BANSHEE;
+            }else if (getEvidence(hunters[0].sharedEvidence, FINGERPRINTS) == C_TRUE){
+                class = POLTERGEIST;
+            }
+
+        //Check is ghost BULLIES
+        }else if (getEvidence(hunters[0].sharedEvidence, FINGERPRINTS) == C_TRUE){
+            if (getEvidence(hunters[0].sharedEvidence, SOUND) == C_TRUE){
+                class = BULLIES;
+            }
+        }
+
+    //Check is it phantom
+    }else if(getEvidence(hunters[0].sharedEvidence, TEMPERATURE) == C_TRUE){
+        if (getEvidence(hunters[0].sharedEvidence, FINGERPRINTS) == C_TRUE){
+            if (getEvidence(hunters[0].sharedEvidence, SOUND) == C_TRUE){
+                class = PHANTOM;
+            }
+        }
+    }
+    char ev_str[MAX_STR];
+    ghostToString(class, ev_str);
+    printf("Identified ghost: %s\n", ev_str);
+    printf("Does it match the actual ghost? %s\n", class == ghost.type ? "Yes" : "No");
 
     // Cleanup
     cleanUpHouse(&house);
 
 
     return 0;
-}
-
-void* hunterFunction(void *arg){
-    HunterType *hunter = (HunterType * )arg;
-    while(C_TRUE){
-        hunterAction(hunter);
-        printf("\nShare evidence:");
-        EvidenceNode *node = hunter->sharedEvidence->head;
-        while(node != NULL){
-            printf(" %d, ", node->evidence);
-            node = node->next;
-        }
-        printf("\n");
-    }
-    return NULL;
-}
-
-void* ghostFunction(void *arg){
-    GhostType *ghost = (GhostType * )arg;
-    printf("\nGhost room: %s", ghost->currentRoom->name);
-    while(C_TRUE){
-        ghostAction(ghost);
-    }
-    printf("\n");
-    return NULL;
 }

@@ -52,6 +52,8 @@ void addEvidence(EvidenceList *list, EvidenceType evidence){
             list->tail-> next = newEvidence;
             list->tail = newEvidence;
             list->numEvidence++;
+        }else{
+            free(newEvidence);
         }
     }else{
         list->tail = newEvidence;

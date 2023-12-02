@@ -48,6 +48,14 @@ void ghostAction(GhostType *ghost) {
     usleep(GHOST_WAIT);
 }
 
+void* ghostFunction(void *arg){
+    GhostType *ghost = (GhostType * )arg;
+    while(C_TRUE){
+        ghostAction(ghost);
+    }
+    return NULL;
+}
+
 void moveGhost(GhostType *ghost) {
     lockRoom(ghost->currentRoom);
     int roomIndex = randInt(0, (ghost->currentRoom->connectedNum));
