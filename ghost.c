@@ -94,8 +94,8 @@ void leaveEvidence(GhostType *ghost) {
         EvidenceType evidence = ghost->validEvidenceTypes[evidenceIndex];
         if(getEvidence(ghost->currentRoom->evidenceList, evidence) == C_FALSE) {
             addEvidenceToRoom(ghost->currentRoom, evidence);
-            l_ghostEvidence(evidence, ghost->currentRoom->name);
         }
+        l_ghostEvidence(evidence, ghost->currentRoom->name);
     }
     unlockRoom(ghost->currentRoom);
 }

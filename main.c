@@ -2,7 +2,7 @@
 
 
 
-    // 1. Initialize
+// 1. Initialize
 //int main(int argc, char** argv) {
 int main(){
 /*
@@ -73,13 +73,13 @@ int main(){
     for (int i = 0; i < NUM_HUNTERS; i++) {
         rc = pthread_create(&hunterThreads[i], NULL, hunterFunction, &hunters[i]);
         if(rc){
-            printf("\nhunter %d", i);
+            printf("\nErro hunter %d", i);
             return -1;
         }
     }
     rc = pthread_create(&ghostThread, NULL, ghostFunction, &ghost);
     if(rc){
-        printf("\nghost");
+        printf("\nErro ghost");
         return -1;
     }
 
@@ -88,12 +88,14 @@ int main(){
         pthread_join(hunterThreads[i], NULL);
     }
     pthread_join(ghostThread, NULL);
+
+
+    
     // 4. Finalize Results
     int fearExceeded = 0, boredomExceeded = 0;
-    EvidenceType collectedEvidence[EV_COUNT] = {0}; // Assuming EV_COUNT is the number of evidence types
-    collectedEvidence[0] = 1;
-    printf("%d", collectedEvidence[0]);
     // 4.2. List all hunters with high fear or boredom
+    printf("\n\nConclusion:");
+    printf("\n==================================\n");
     for (int i = 0; i < NUM_HUNTERS; i++) {
         if (hunters[i].fear >= FEAR_MAX) {
             printf("Hunter %s exceeded max fear.\n", hunters[i].name);
@@ -104,20 +106,29 @@ int main(){
             boredomExceeded++;
         }
     }
+    printf("==================================\n");
+    printf("..................................\n\n");
+
+
+    printf("Who Won:");
+    printf("\n==================================\n");
 
     // 4.3. Check if ghost won
     if (fearExceeded + boredomExceeded == NUM_HUNTERS) {
-        printf("The ghost has won.\n");
+        printf("The ghost has won!!!!!\n");
+    }else{
+        printf("The hunters has won!!!!!\n");
     }
+    printf("==================================\n");
+    printf("..................................\n");
 
     // 4.4. Print collected evidence
-    printf("Collected Evidence:\n");
+    printf("\nThe Evidence collect by the Hunters:\n");
     for (int i = 0; i < EV_COUNT; i++) {
         if (getEvidence(house.sharedEvidenceList, i)) {
             char ev_str[MAX_STR];
             evidenceToString(i, ev_str);
-            printf("%s\n", ev_str);
-            collectedEvidence[i] = 1;
+            printf("      *%s\n", ev_str);
         }
     }
 
@@ -150,7 +161,8 @@ int main(){
     }
     char ev_str[MAX_STR];
     ghostToString(class, ev_str);
-    printf("Identified ghost: %s\n", ev_str);
+    printf("\nResult:");
+    printf("\nIdentified ghost: %s\n", ev_str);
     printf("Does it match the actual ghost? %s\n", class == ghost.type ? "Yes" : "No");
 
     // Cleanup

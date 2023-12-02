@@ -102,6 +102,7 @@ void reviewEvidence(HunterType *hunter) {
     if(class != GH_UNKNOWN){
         removeHunterFromRoom(hunter, hunter->currentRoom);
         l_hunterReview(hunter->name, LOG_SUFFICIENT);
+        l_hunterExit(hunter->name, LOG_EVIDENCE);
         pthread_exit(NULL);
     }else{
         l_hunterReview(hunter->name, LOG_INSUFFICIENT);

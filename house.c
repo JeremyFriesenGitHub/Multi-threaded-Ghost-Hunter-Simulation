@@ -79,8 +79,6 @@ void addRoom(RoomNode **rooms, Room *room) {
         }
         current->next = newNode;
     }
-    //appendRoomToList(rooms, room);
-    //printf("\nRoom added to house: %s", (*rooms)->room->name);
 }
 
 /*
