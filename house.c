@@ -99,7 +99,6 @@ void cleanUpHouse(HouseType *house) {
     cleanupRooms(house->rooms);
     // Free hunters and sharedEvidenceList
     cleanupHunters(house->hunters);
-    cleanupEvidences(house->sharedEvidenceList->head);
-    free(house->sharedEvidenceList);
+    cleanupEvidences(house->sharedEvidenceList);
     // Set all pointers to NULL and counters to 0
 }

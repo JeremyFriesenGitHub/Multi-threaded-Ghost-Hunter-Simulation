@@ -113,13 +113,19 @@ void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
 
 
 //clean up list of evidences
-void cleanupEvidences(EvidenceNode *head){
-    if(head == NULL) return;
+void cleanupEvidences(EvidenceList *list){
+    if(list == NULL) {
+        return;
+    }
 
     // Free evidenceList
-    EvidenceNode *curr = head; 
-    EvidenceNode *temp = curr ->next;
-    free(curr);
+    EvidenceNode *curr = list->head; 
+    EvidenceNode *temp = NULL;
+    if(curr != NULL){
+        temp = curr ->next;
+        free(curr);
+    }
+    
 
     //remove all evidence in list
     while (temp != NULL) {
@@ -127,4 +133,6 @@ void cleanupEvidences(EvidenceNode *head){
         temp = temp->next;
         free(curr); 
     }
+    sem_destroy(&list->evidenceMutex);
+    free(list);
 }

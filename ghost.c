@@ -32,7 +32,6 @@ void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom) {
 
 void ghostAction(GhostType *ghost) {
     int action = randInt(0, 3); // Assuming randInt generates a random integer between 0 and 2
-    printf("\nghost action:%d",action);
     switch(action) {
         case 0: // Do nothing
             break;
@@ -42,8 +41,6 @@ void ghostAction(GhostType *ghost) {
         case 2: // Move
             if (ghost->currentRoom->hunters == NULL) { // Assuming hunters is NULL if no hunter in the room
                 moveGhost(ghost);
-            }else{
-                printf("I see a hunter%s", ghost->currentRoom->hunters->hunter->currentRoom->name);
             }
             break;
     }
@@ -87,9 +84,10 @@ void leaveEvidence(GhostType *ghost) {
     if (ghost->currentRoom->evidenceList->numEvidence< MAX_EVIDENCE) { // MAX_EVIDENCE is the max number of evidence a room can hold
         int evidenceIndex = randInt(0, 3); // Randomly select one of the ghost's valid evidence types
         EvidenceType evidence = ghost->validEvidenceTypes[evidenceIndex];
-
-        addEvidenceToRoom(ghost->currentRoom, evidence);
-        l_ghostEvidence(evidence, ghost->currentRoom->name);
+        if(getEvidence(ghost->currentRoom->evidenceList, evidence) == C_FALSE) {
+            addEvidenceToRoom(ghost->currentRoom, evidence);
+            l_ghostEvidence(evidence, ghost->currentRoom->name);
+        }
     }
     unlockRoom(ghost->currentRoom);
 }
@@ -110,11 +108,7 @@ void checkGhostBoredom(GhostType *ghost) {
 
 //done
 void cleanUpGhost(GhostType *ghost) {
-    free(ghost);/*
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a8a2423 (Updated Main Function WorkFlow)*/
+    free(ghost);
 }
 
 

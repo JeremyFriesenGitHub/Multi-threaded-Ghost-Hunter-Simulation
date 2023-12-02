@@ -35,12 +35,10 @@ void connectRooms(Room *room1, Room *room2) {
 }
 
 void lockRoom(Room *room) {
-    printf("\n%s is lock", room->name);
     sem_wait(&room->roomLock);
 }
 
 void unlockRoom(Room *room) {
-    printf("\n%s is unlock", room->name);
     sem_post(&room->roomLock);
 }
 
@@ -141,11 +139,15 @@ void cleanupRooms(RoomNode *rooms) {
     if(rooms == NULL) return ;
     RoomNode *curr = rooms;
     RoomNode *temp = curr->next;
+    printf("\nfree %s", curr->room->name);
     cleanupRoom(curr->room);
+    free(curr);
     while (temp != NULL) {
         curr = temp; 
         temp = temp->next;
+        printf("\nfree %s", curr->room->name);
         cleanupRoom(curr->room); 
+        free(curr);
     }
 }
 
@@ -163,7 +165,8 @@ void cleanupRoom(Room *room) {
     }
     
     // Free evidenceList
-    cleanupEvidences(room->evidenceList->head);
+    cleanupEvidences(room->evidenceList);
+    cleanupHunters(room->hunters);
 
     // Free hunters list (if applicable)
     

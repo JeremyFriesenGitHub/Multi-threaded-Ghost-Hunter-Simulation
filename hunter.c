@@ -19,7 +19,6 @@ void initHunterNode(HunterNode *node, HunterType *hunter){
 
 void hunterAction(HunterType *hunter) {
     int action = randInt(0, 4); // Assuming randInt is a function that generates a random integer
-    printf("\n%s took %d", hunter->name, action);
     switch(action) {
         case 0: // Move
             moveHunter(hunter);
@@ -101,6 +100,7 @@ void reviewEvidence(HunterType *hunter) {
 
     l_hunterReview(hunter->name, LOG_INSUFFICIENT);
     if(class != GH_UNKNOWN){
+        removeHunterFromRoom(hunter, hunter->currentRoom);
         l_hunterReview(hunter->name, LOG_SUFFICIENT);
         pthread_exit(NULL);
     }
@@ -117,11 +117,13 @@ void checkHunterFearAndBoredom(HunterType *hunter) {
     unlockRoom(hunter->currentRoom);
 
     if (hunter->fear >= FEAR_MAX){
+        removeHunterFromRoom(hunter, hunter->currentRoom);
         l_hunterExit(hunter->name, LOG_FEAR);
         pthread_exit(NULL);
          
     }
     if(hunter->boredom >= BOREDOM_MAX) {
+        removeHunterFromRoom(hunter, hunter->currentRoom);
         l_hunterExit(hunter->name, LOG_BORED);
         pthread_exit(NULL);
     }
@@ -133,11 +135,11 @@ void cleanupHunters(HunterNode *hunters){
     if(hunters == NULL) return ;
     HunterNode *curr = hunters;
     HunterNode *temp = curr->next;
-    free(curr->hunter);
+    free(curr);
     while (temp != NULL) {
         curr = temp; 
         temp = temp->next;
-        free(curr->hunter); 
+        free(curr);
     }
 }
 /*

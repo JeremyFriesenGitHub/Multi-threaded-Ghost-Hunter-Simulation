@@ -132,7 +132,6 @@ int main(){
 
     // Cleanup
     cleanUpHouse(&house);
-    cleanUpGhost(&ghost);
 
 
     return 0;
@@ -140,9 +139,15 @@ int main(){
 
 void* hunterFunction(void *arg){
     HunterType *hunter = (HunterType * )arg;
-    printf("\n%s Hunter room: %s",hunter->name, hunter->currentRoom->name);
     while(C_TRUE){
         hunterAction(hunter);
+        printf("\nShare evidence:");
+        EvidenceNode *node = hunter->sharedEvidence->head;
+        while(node != NULL){
+            printf(" %d, ", node->evidence);
+            node = node->next;
+        }
+        printf("\n");
     }
     return NULL;
 }
@@ -153,5 +158,6 @@ void* ghostFunction(void *arg){
     while(C_TRUE){
         ghostAction(ghost);
     }
+    printf("\n");
     return NULL;
 }
