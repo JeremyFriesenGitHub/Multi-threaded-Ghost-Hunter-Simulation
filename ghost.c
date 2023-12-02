@@ -1,10 +1,20 @@
 #include "defs.h"
 
+/*
+  Function:initGhost(GhostType *, GhostClass , Room *)
+  Purpose:  This function will initialize the ghost
+        out     GhostType *ghost        pointer to the ghost
+        in      GhostClass type         the type of ghost
+        in      Room *startingRoom      the starting room of ghost
 
+  return void
+*/
 void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom) {
     ghost->type = type;
     ghost->currentRoom = startingRoom;
     ghost->boredomTimer = 0;
+
+    //add the valid evidenceTypes depend on what the ghost is
     if(type == 0){
         ghost->validEvidenceTypes[0] = 0;
         ghost->validEvidenceTypes[1] = 1;
@@ -30,6 +40,13 @@ void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom) {
     l_ghostInit(type, ghost->currentRoom->name);
 }
 
+/*
+  Function: ghostAction(GhostType *ghost)
+  Purpose:  This function will choose a random action for the ghost
+        in      GhostType *ghost        The pointer to the ghost
+
+  return void
+*/
 void ghostAction(GhostType *ghost) {
     int action = randInt(0, 3); // Assuming randInt generates a random integer between 0 and 2
     switch(action) {
@@ -44,10 +61,20 @@ void ghostAction(GhostType *ghost) {
             }
             break;
     }
+
+    //check is the ghost bore
     checkGhostBoredom(ghost);
     usleep(GHOST_WAIT);
 }
 
+/*
+  Function: ghostFunction(void *arg)
+  Purpose:  This function will let ghost have action until ghost is bored
+        in     void *arg        the data of the ghost
+
+  return void
+    NULL: The function returns NULL when the ghost thread completes its execution.
+*/
 void* ghostFunction(void *arg){
     GhostType *ghost = (GhostType * )arg;
     while(C_TRUE){
@@ -56,13 +83,23 @@ void* ghostFunction(void *arg){
     return NULL;
 }
 
+/*
+  Function: moveGhost(GhostType *ghost)
+  Purpose:  This function will move the ghost to a random connect room
+        in      GhostType *ghost        The pointer to the ghost
+
+  return void
+*/
 void moveGhost(GhostType *ghost) {
     lockRoom(ghost->currentRoom);
+
+    //Move the ghost to a random connect room
     int roomIndex = randInt(0, (ghost->currentRoom->connectedNum));
     RoomNode *connectedRooms = ghost->currentRoom->connectedRooms;
-    // Count the number of connected rooms
+    
     RoomNode *current = connectedRooms;
 
+    //Check is there any connected room
     if (ghost->currentRoom->connectedNum == 0) {
         unlockRoom(ghost->currentRoom);
         return; // No connected rooms
@@ -72,13 +109,14 @@ void moveGhost(GhostType *ghost) {
     for (int i = 0; i < roomIndex && current -> next != NULL; i++) {
         current = current->next;
     }
-   
+    
+    //Remove the ghost from current room
     ghost->currentRoom->ghost = NULL;
     unlockRoom(ghost->currentRoom);
 
 
+    //Add the ghost to new room
     lockRoom(current->room);
-
     ghost->currentRoom = current->room;
     ghost->currentRoom->ghost=ghost;
     l_ghostMove(ghost->currentRoom->name);
@@ -86,20 +124,40 @@ void moveGhost(GhostType *ghost) {
 }
 
 
+/*
+  Function: leaveEvidence(GhostType *)
+  Purpose:  This function will leave evidence in the room the ghost is currently in
+        in      GhostType *ghost        The pointer to the ghost
 
+  return void
+*/
 void leaveEvidence(GhostType *ghost) {
+
+    //lock the room
     lockRoom(ghost->currentRoom);
     if (ghost->currentRoom->evidenceList->numEvidence< MAX_EVIDENCE) { // MAX_EVIDENCE is the max number of evidence a room can hold
         int evidenceIndex = randInt(0, 3); // Randomly select one of the ghost's valid evidence types
         EvidenceType evidence = ghost->validEvidenceTypes[evidenceIndex];
+
+        //Check is there duplicate of evidence
+        //if there is duplicate evidence don't add it to evidence list to save memory
         if(getEvidence(ghost->currentRoom->evidenceList, evidence) == C_FALSE) {
             addEvidenceToRoom(ghost->currentRoom, evidence);
         }
+
+        //log evidence
         l_ghostEvidence(evidence, ghost->currentRoom->name);
     }
     unlockRoom(ghost->currentRoom);
 }
 
+/*
+  Function: checkGhostBoredom(GhostType *ghost)
+  Purpose:  This function will check change the ghost boredom and will exit the thread if the ghost boredom reach BOREDOM_MAX
+        in      GhostType *ghost        The pointer to the ghost
+
+  return void
+*/
 void checkGhostBoredom(GhostType *ghost) {
     if (ghost->currentRoom->hunters == NULL) {
         ghost->boredomTimer++;
@@ -114,53 +172,14 @@ void checkGhostBoredom(GhostType *ghost) {
 }
 
 
-//done
+/*
+  Function: cleanUpGhost(GhostType *ghost)
+  Purpose:  This function will free the memory allocated for the ghost
+        in     EvidenceList *list
+
+  return void
+*/
 void cleanUpGhost(GhostType *ghost) {
     free(ghost);
 }
 
-
-void *ghostThreadFunction(void *arg) {
-    GhostType *ghost = (GhostType *)arg;
-
-    while (1) {
-        lockRoom(ghost->currentRoom);
-
-        // 2.1. Ghost in the same room as a hunter
-        if (ghost->currentRoom->hunters != NULL) {
-            ghost->boredomTimer = 0; // Reset boredom timer
-            int action = randInt(0, 1); // Randomly choose to leave evidence or do nothing
-
-            if (action == 0) { // Leave evidence
-                leaveEvidence(ghost);
-            }
-            // Else, do nothing
-        }
-        // 2.2. Ghost not in the same room as a hunter
-        else {
-            ghost->boredomTimer++; // Increase boredom counter
-            int action = randInt(0, 2); // Randomly choose action
-
-            if (action == 0) { // Move to an adjacent room
-                moveGhost(ghost);
-            } 
-            else if (action == 1) { // Leave evidence
-                leaveEvidence(ghost);
-            }
-            // Else, do nothing
-        }
-
-        unlockRoom(ghost->currentRoom);
-
-        // 2.5. Check boredom level
-        if (ghost->boredomTimer >= BOREDOM_MAX) {
-            break; // Exit the thread
-        }
-
-        // Optional: sleep for a short duration
-        usleep(GHOST_WAIT); // GHOST_WAIT is a predefined constant for wait time
-    }
-
-    return NULL;
-
-}

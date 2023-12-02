@@ -5,6 +5,12 @@
     Note: You may modify this as long as room names and connections are maintained.
         out: house - the house to populate with rooms. Assumes house has been initialized.
 */
+/*
+  Function: populateRooms(HouseType* )
+  Purpose:  This function will populate the house
+        in     HouseType* house     pointer to the house
+  return void
+*/
 void populateRooms(HouseType* house) {
     // First, create each room
 
@@ -55,7 +61,12 @@ void populateRooms(HouseType* house) {
     addRoom(&house->rooms, utility_room);
 }
 
-
+/*
+  Function: initHouse(HouseType *)
+  Purpose:  This function will initalize the house
+        in     HouseType* house     pointer to the house
+  return void
+*/
 void initHouse(HouseType *house) {
     EvidenceList *list = (EvidenceList *) malloc(sizeof(EvidenceList));
     initEvidenceList(list);
@@ -65,6 +76,13 @@ void initHouse(HouseType *house) {
     house->numHunters = 0;
 }
 
+/*
+  Function: addRoom(RoomNode **, Room *)
+  Purpose:  This function will populate the house
+        in     RoomNode **rooms     pointers to the rooms that will be adding connection to
+        in     Room *room           pointer to the room
+  return void
+*/
 void addRoom(RoomNode **rooms, Room *room) {
     if (room == NULL) return;
     RoomNode *newNode = (RoomNode *)malloc(sizeof(RoomNode));
@@ -82,13 +100,10 @@ void addRoom(RoomNode **rooms, Room *room) {
 }
 
 /*
-typedef struct House {
-    RoomNode *rooms; // Linked list of all rooms in the house
-    HunterType *hunters; // Array or linked list of hunters
-    EvidenceType *sharedEvidenceList; // Array or list of shared evidence
-    int numHunters; // Number of hunters in the house
-    int numSharedEvidence; // Number of evidence in shared list
-} HouseType;
+  Function: cleanUpHouse(HouseType *house)
+  Purpose:  This function will free all allocated memeory for house
+        in     HouseType* house     pointer to the house
+  return void
 */
 void cleanUpHouse(HouseType *house) {
     if (house == NULL) return;

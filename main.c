@@ -5,12 +5,6 @@
 // 1. Initialize
 //int main(int argc, char** argv) {
 int main(){
-/*
-    //Check is there command line
-    if (argc > 1) {
-
-    }
-*/
     // Initialize the random number generator
     srand(time(NULL));
 

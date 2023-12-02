@@ -112,7 +112,6 @@ void moveHunter(HunterType *hunter);
 void collectEvidence(HunterType *hunter);
 void reviewEvidence(HunterType *hunter);
 void checkHunterFearAndBoredom(HunterType *hunter);
-void cleanupHunter(HunterType *hunter);
 void addEvidence(EvidenceList *list, EvidenceType evidence);  //add evidence to list
 void hunterSwitchRoom(HunterType *hunter, int roomIndex); //move hunter to new room
 void addHunterToRoom(HunterType *hunter, Room *room); //add hunter to room
