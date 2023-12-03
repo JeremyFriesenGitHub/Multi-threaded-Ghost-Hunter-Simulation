@@ -8,24 +8,39 @@ This project involves building a multi-threaded ghost hunting simulation where h
 # ##List of Files
 
 -ghost.c: Defines the behaviors of a ghost in the simulation, including its initialization, actions such as moving between rooms and leaving evidence, managing its boredom level, and placeholder cleanup functionality
+
 -defs.h: Contains the definitions of the data structures, constants and the function prototypes used throughout the project.
+
 -room.c: Manages room-related functionalities, including room creation, connections between rooms, and operations on room data structures within the ghost hunting simulation
+
 -evidence.c: Handles evidence-related actions, such as adding or removing evidence from rooms, and manages the list or collection of evidence items that can be discovered by hunters
+
 -house.c: Contains the implementation of the house setup, including initializing the house structure, populating it with rooms, and linking them to form the environment for the simulation
+
 -hunter.c: Implements the behavior of hunters within the simulation, covering their movement, evidence collection, and the logic for fear and boredom levels affecting their actionss
+
 -logger.c: Provides logging utilities that record and display the events and actions taken by both hunters and ghosts throughout the course of the simulation for debugging or analysis
+
 -Makefile: Automates the compilation process, specifying how to compile and link the program's multiple source files (using 'make' command) and providing a 'clean' command to remove compiled outputs
+
 -main.c: Contains the main code to execute
+
 -utils.c: Contains helper functions to improve readability of the main function. 
+
 -README.md: Contains this description
+
 -github.png: Contains screenshot of the GitHub commit history
 
 # ##Compiling and Executing
 
 1. Navigate to the folder containing the source code in a terminal,
+
 2. Use the command 'Make' in the terminal to compile all of the C programs in the directory. This will also create object files for the programs as well. 
+
 3. Use the command 'valgrind --leak-check=full ./ghost_hunt_simulator'. while in the folder containing the executable to run the program. Optional use to run the valgrind check for leaks.
+
 4. Use the command 'Make clean' to remove all of the object files created from the makefile, if necessary. 
+
 5. Optional use to pipe in names using '< names.txt' or to use './validate' for validation checks. 
 
 # ## Expected Output
