@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -93,7 +92,7 @@ typedef struct Hunter {
 } HunterType;
 
 
-//init Function
+//init Functions
 void initEvidenceList(EvidenceList *list);
 void initHouse(HouseType *house);
 void initHunter(HunterType *hunter, const char *name, Room *startingRoom, EvidenceType equipmentType, EvidenceList *sharedEvidence);

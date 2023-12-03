@@ -1,5 +1,12 @@
 #include "defs.h"
 
+/*
+  Function: createRoom
+  Parameters: const char *name - Name of the room to be created.
+  Purpose: Allocates memory and initializes a new room with the specified name.
+           Initializes an empty evidence list and sets initial values for room properties.
+  Return: Pointer to the newly created Room object.
+*/
 Room *createRoom(const char *name) {
     Room *newRoom = (Room *)malloc(sizeof(Room));
     EvidenceList *list = (EvidenceList *)malloc(sizeof(EvidenceList));
@@ -17,7 +24,15 @@ Room *createRoom(const char *name) {
     return newRoom;
 }
 
-// Function to connect two rooms
+
+/*
+  Function: connectRooms
+  Parameters: Room *room1 - First room to connect.
+              Room *room2 - Second room to connect.
+  Purpose: Establishes a bidirectional connection between two rooms.
+           Adds each room to the other's list of connected rooms.
+  Return: void
+*/
 void connectRooms(Room *room1, Room *room2) {
     if (room1 == NULL || room2 == NULL) {
         // Handle null room pointers
@@ -34,14 +49,33 @@ void connectRooms(Room *room1, Room *room2) {
     room2->connectedNum++;
 }
 
+/*
+  Function: lockRoom
+  Parameters: Room *room - The room to lock.
+  Purpose: Acquires a semaphore lock on the given room for thread safety.
+  Return: void
+*/
 void lockRoom(Room *room) {
     sem_wait(&room->roomLock);
 }
 
+/*
+  Function: unlockRoom
+  Parameters: Room *room - The room to unlock.
+  Purpose: Releases the semaphore lock on the given room.
+  Return: void
+*/
 void unlockRoom(Room *room) {
     sem_post(&room->roomLock);
 }
 
+/*
+  Function: hunterSwitchRoom
+  Parameters: HunterType *hunter - The hunter to move.
+              int roomIndex - Index of the room to move the hunter to.
+  Purpose: Moves a hunter from their current room to a new room based on the roomIndex.
+  Return: void
+*/
 void hunterSwitchRoom(HunterType *hunter, int roomIndex){
     lockRoom(hunter->currentRoom);
     
@@ -64,7 +98,13 @@ void hunterSwitchRoom(HunterType *hunter, int roomIndex){
 }
 
 
-//Add the hunter to the list of hunter in room
+/*
+  Function: addHunterToRoom
+  Parameters: HunterType *hunter - The hunter to add to the room.
+              Room *room - The room where the hunter will be added.
+  Purpose: Adds a hunter to a room's list of hunters.
+  Return: void
+*/
 void addHunterToRoom(HunterType *hunter, Room *room){
     lockRoom(room);
     HunterNode *hunters = room->hunters;
@@ -90,7 +130,13 @@ void addHunterToRoom(HunterType *hunter, Room *room){
     unlockRoom(room);
 }
 
-//Remove the hunter to the list of hunter in room
+/*
+  Function: removeHunterFromRoom
+  Parameters: HunterType *hunter - The hunter to remove from the room.
+              Room *room - The room where the hunter will be removed.
+  Purpose: Removes a hunter from a room's list of hunters.
+  Return: void
+*/
 void removeHunterFromRoom(HunterType *hunter, Room *room){
     lockRoom(room);
     HunterNode *hunters = room->hunters;
@@ -111,7 +157,13 @@ void removeHunterFromRoom(HunterType *hunter, Room *room){
     unlockRoom(room);
 }
 
-// Function to append a room to a room's linked list of connected rooms
+/*
+  Function: appendRoomToList
+  Parameters: RoomNode **connectHead - Head of the connected rooms list.
+              Room *roomToAdd - The room to be added to the list.
+  Purpose: Adds a room to a linked list of connected rooms.
+  Return: void
+*/
 void appendRoomToList(RoomNode **connectHead, Room *roomToAdd) {
     RoomNode *newNode = (RoomNode *)malloc(sizeof(RoomNode));
     if (newNode == NULL) {
@@ -135,6 +187,12 @@ void appendRoomToList(RoomNode **connectHead, Room *roomToAdd) {
     }
 }
 
+/*
+  Function: cleanupRooms
+  Parameters: RoomNode *rooms - Head of the list of rooms to be cleaned up.
+  Purpose: Frees all memory associated with a linked list of rooms.
+  Return: void
+*/
 void cleanupRooms(RoomNode *rooms) {
     if(rooms == NULL) return ;
     RoomNode *curr = rooms;
@@ -149,6 +207,13 @@ void cleanupRooms(RoomNode *rooms) {
     }
 }
 
+
+/*
+  Function: cleanupRoom
+  Parameters: Room *room - The room to be cleaned up.
+  Purpose: Frees all memory associated with a single room and its connected resources.
+  Return: void
+*/
 void cleanupRoom(Room *room) {
     if (room == NULL) return;
 

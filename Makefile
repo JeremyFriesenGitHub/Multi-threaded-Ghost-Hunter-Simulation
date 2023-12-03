@@ -2,7 +2,7 @@
 CC=gcc
 
 # Define any compile-time flags
-CFLAGS=-Wextra -Wall -g
+CFLAGS=-Wextra -Wall -Werror
 
 # Define the source files
 SRCS=main.c house.c logger.c utils.c ghost.c hunter.c room.c evidence.c

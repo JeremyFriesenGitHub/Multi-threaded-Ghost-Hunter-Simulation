@@ -62,10 +62,11 @@ void populateRooms(HouseType* house) {
 }
 
 /*
-  Function: initHouse(HouseType *)
-  Purpose:  This function will initalize the house
-        in     HouseType* house     pointer to the house
-  return void
+  Function: initHouse
+  Parameters:
+    HouseType *house - Pointer to the house that will be initialized.
+  Purpose: Initializes the house by allocating memory for the shared evidence list and setting up initial values for house properties.
+  Return: void
 */
 void initHouse(HouseType *house) {
     EvidenceList *list = (EvidenceList *) malloc(sizeof(EvidenceList));
@@ -77,11 +78,12 @@ void initHouse(HouseType *house) {
 }
 
 /*
-  Function: addRoom(RoomNode **, Room *)
-  Purpose:  This function will populate the house
-        in     RoomNode **rooms     pointers to the rooms that will be adding connection to
-        in     Room *room           pointer to the room
-  return void
+  Function: addRoom
+  Parameters:
+    RoomNode **rooms - Pointer to the head of the room list.
+    Room *room - Pointer to the room that will be added to the list.
+  Purpose: Adds a room to the house's room list. Creates a new node for the room and appends it to the list.
+  Return: void
 */
 void addRoom(RoomNode **rooms, Room *room) {
     if (room == NULL) return;
@@ -100,10 +102,11 @@ void addRoom(RoomNode **rooms, Room *room) {
 }
 
 /*
-  Function: cleanUpHouse(HouseType *house)
-  Purpose:  This function will free all allocated memeory for house
-        in     HouseType* house     pointer to the house
-  return void
+  Function: cleanUpHouse
+  Parameters:
+    HouseType *house - Pointer to the house that will be cleaned up.
+  Purpose: Frees all allocated memory associated with the house, including rooms, hunters, and shared evidence list.
+  Return: void
 */
 void cleanUpHouse(HouseType *house) {
     if (house == NULL) return;

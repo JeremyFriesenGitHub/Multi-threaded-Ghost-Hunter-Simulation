@@ -1,13 +1,13 @@
 #include "defs.h"
 
 /*
-  Function:initGhost(GhostType *, GhostClass , Room *)
-  Purpose:  This function will initialize the ghost
-        out     GhostType *ghost        pointer to the ghost
-        in      GhostClass type         the type of ghost
-        in      Room *startingRoom      the starting room of ghost
-
-  return void
+  Function: initGhost
+  Parameters:
+    GhostType *ghost - Pointer to the ghost.
+    GhostClass type - Type of the ghost.
+    Room *startingRoom - Starting room of the ghost.
+  Purpose: Initializes the ghost with a specified type and starting room. Sets up valid evidence types based on the ghost type.
+  Return: void
 */
 void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom) {
     ghost->type = type;
@@ -41,11 +41,11 @@ void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom) {
 }
 
 /*
-  Function: ghostAction(GhostType *ghost)
-  Purpose:  This function will choose a random action for the ghost
-        in      GhostType *ghost        The pointer to the ghost
-
-  return void
+  Function: ghostAction
+  Parameters:
+    GhostType *ghost - Pointer to the ghost.
+  Purpose: Chooses and executes a random action for the ghost, including doing nothing, leaving evidence, or moving.
+  Return: void
 */
 void ghostAction(GhostType *ghost) {
     int action = randInt(0, 3); // Assuming randInt generates a random integer between 0 and 2
@@ -68,12 +68,12 @@ void ghostAction(GhostType *ghost) {
 }
 
 /*
-  Function: ghostFunction(void *arg)
-  Purpose:  This function will let ghost have action until ghost is bored
-        in     void *arg        the data of the ghost
-
-  return void
-    NULL: The function returns NULL when the ghost thread completes its execution.
+  Function: ghostFunction
+  Parameters:
+    void *arg - Pointer to the ghost data.
+  Purpose: Executes ghost actions repeatedly in a thread until the ghost becomes bored and the thread exits.
+  Return:
+    NULL - Indicates the thread's completion.
 */
 void* ghostFunction(void *arg){
     GhostType *ghost = (GhostType * )arg;
@@ -84,11 +84,11 @@ void* ghostFunction(void *arg){
 }
 
 /*
-  Function: moveGhost(GhostType *ghost)
-  Purpose:  This function will move the ghost to a random connect room
-        in      GhostType *ghost        The pointer to the ghost
-
-  return void
+  Function: moveGhost
+  Parameters:
+    GhostType *ghost - Pointer to the ghost.
+  Purpose: Moves the ghost to a randomly connected room.
+  Return: void
 */
 void moveGhost(GhostType *ghost) {
     lockRoom(ghost->currentRoom);
@@ -125,11 +125,11 @@ void moveGhost(GhostType *ghost) {
 
 
 /*
-  Function: leaveEvidence(GhostType *)
-  Purpose:  This function will leave evidence in the room the ghost is currently in
-        in      GhostType *ghost        The pointer to the ghost
-
-  return void
+  Function: leaveEvidence
+  Parameters:
+    GhostType *ghost - Pointer to the ghost.
+  Purpose: Leaves evidence in the current room of the ghost. The type of evidence is based on the ghost's valid evidence types.
+  Return: void
 */
 void leaveEvidence(GhostType *ghost) {
 
@@ -152,11 +152,11 @@ void leaveEvidence(GhostType *ghost) {
 }
 
 /*
-  Function: checkGhostBoredom(GhostType *ghost)
-  Purpose:  This function will check change the ghost boredom and will exit the thread if the ghost boredom reach BOREDOM_MAX
-        in      GhostType *ghost        The pointer to the ghost
-
-  return void
+  Function: checkGhostBoredom
+  Parameters:
+    GhostType *ghost - Pointer to the ghost.
+  Purpose: Increases the ghost's boredom timer if there are no hunters in the room, and exits the thread if the boredom reaches a maximum threshold.
+  Return: void
 */
 void checkGhostBoredom(GhostType *ghost) {
     if (ghost->currentRoom->hunters == NULL) {
@@ -173,11 +173,11 @@ void checkGhostBoredom(GhostType *ghost) {
 
 
 /*
-  Function: cleanUpGhost(GhostType *ghost)
-  Purpose:  This function will free the memory allocated for the ghost
-        in     EvidenceList *list
-
-  return void
+  Function: cleanUpGhost
+  Parameters:
+    GhostType *ghost - Pointer to the ghost.
+  Purpose: Frees the memory allocated for the ghost.
+  Return: void
 */
 void cleanUpGhost(GhostType *ghost) {
     free(ghost);

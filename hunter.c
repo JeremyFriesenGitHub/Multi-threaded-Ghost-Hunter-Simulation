@@ -1,16 +1,15 @@
 #include "defs.h"
 
-
 /*
-  Function: initHunter(HunterType *, const char *, Room *, EvidenceType , EvidenceList *)
-  Purpose:  This function will initialize the hunter
-        in     HunterType *hunter           pointer to the hunter
-        in     const char *name             pointer to the name of the hunter
-        in     Room *startingRoom           pointer to the starting room of hunter
-        in     EvidenceType equipmentType   pointer to the equipement type for hunter
-        in     EvidenceList *sharedEvidence pointer to the share evidence list for hunters
-
-  return void
+  Function: initHunter
+  Parameters: 
+    HunterType *hunter - Pointer to the hunter.
+    const char *name - Name of the hunter.
+    Room *startingRoom - Starting room of the hunter.
+    EvidenceType equipmentType - Equipment type of the hunter.
+    EvidenceList *sharedEvidence - Shared evidence list among hunters.
+  Purpose: Initializes a hunter with specified name, starting room, equipment type, and shared evidence list.
+  Return: void
 */
 void initHunter(HunterType *hunter, const char *name, Room *startingRoom, EvidenceType equipmentType, EvidenceList *sharedEvidence) {
     strncpy(hunter->name, name, MAX_STR);
@@ -24,12 +23,12 @@ void initHunter(HunterType *hunter, const char *name, Room *startingRoom, Eviden
 }
 
 /*
-  Function: initHunterNode(HunterNode *, HunterType *)
-  Purpose:  This function will initialize the node for hunter
-        in      HunterNode *node            pointer to the hunter node
-        in      HunterType *hunter           pointer to the hunter
-
-  return void
+  Function: initHunterNode
+  Parameters:
+    HunterNode *node - Pointer to the hunter node.
+    HunterType *hunter - Pointer to the hunter.
+  Purpose: Initializes a hunter node with the given hunter.
+  Return: void
 */
 void initHunterNode(HunterNode *node, HunterType *hunter){
     node->hunter = hunter;
@@ -37,11 +36,11 @@ void initHunterNode(HunterNode *node, HunterType *hunter){
 }
 
 /*
-  Function: hunterAction(HunterType *hunter)
-  Purpose:  This function will choose a random action for hunter
-        in     HunterType *hunter           pointer to the hunter
-
-  return void
+  Function: hunterAction
+  Parameters:
+    HunterType *hunter - Pointer to the hunter.
+  Purpose: Chooses and executes a random action for the hunter.
+  Return: void
 */
 void hunterAction(HunterType *hunter) {
     int action = randInt(0, 4); // Assuming randInt is a function that generates a random integer
@@ -64,11 +63,11 @@ void hunterAction(HunterType *hunter) {
 }
 
 /*
-  Function: void moveHunter(HunterType *hunter)
-  Purpose:  This function will move the hunter to a random connected room
-        in     HunterType *hunter           pointer to the hunter
-
-  return void
+  Function: moveHunter
+  Parameters:
+    HunterType *hunter - Pointer to the hunter.
+  Purpose: Moves the hunter to a random connected room.
+  Return: void
 */
 void moveHunter(HunterType *hunter) {
     int randomRoom = randInt(0, hunter->currentRoom->connectedNum);     //choose a random room for hunter to move to
@@ -82,12 +81,11 @@ void moveHunter(HunterType *hunter) {
 
 
 /*
-  Function: collectEvidence(HunterType *hunter)
-  Purpose:  This function will collect evidence in the room, if there is evidence that match hunter's equipment in the room add it to the share evidence list
-        in     HunterType *hunter           pointer to the hunter
-
-
-  return void
+  Function: collectEvidence
+  Parameters:
+    HunterType *hunter - Pointer to the hunter.
+  Purpose: Collects evidence in the room if it matches the hunter's equipment type.
+  Return: void
 */
 void collectEvidence(HunterType *hunter) {
     // Logic to collect evidence if it matches the hunter's equipment type
@@ -102,11 +100,11 @@ void collectEvidence(HunterType *hunter) {
 
 
 /*
-  Function: reviewEvidence(HunterType *hunter)
-  Purpose:  This function will  review the evidence in the share evidence list, if evidence is sufficeient to find the ghost, exit the thread
-        in     HunterType *hunter           pointer to the hunter
-
-  return void
+  Function: reviewEvidence
+  Parameters:
+    HunterType *hunter - Pointer to the hunter.
+  Purpose: Reviews the shared evidence list and determines if sufficient evidence has been collected to identify the ghost.
+  Return: void
 */
 void reviewEvidence(HunterType *hunter) {
     // Logic to review the shared evidence
@@ -154,12 +152,11 @@ void reviewEvidence(HunterType *hunter) {
 
 
 /*
-  Function: checkHunterFearAndBoredom(HunterType *hunter)
-  Purpose:  This function will increase or decrease hunter's fear and boredom base on their situation, 
-            if the hunter's fear or boredom exceed the max fear or max boredom, the hunter thread will exit
-        in     HunterType *hunter           pointer to the hunter
-
-  return void
+  Function: checkHunterFearAndBoredom
+  Parameters:
+    HunterType *hunter - Pointer to the hunter.
+  Purpose: Modifies the hunter's fear and boredom levels based on the situation, and exits the thread if certain thresholds are exceeded.
+  Return: void
 */
 void checkHunterFearAndBoredom(HunterType *hunter) {
     lockRoom(hunter->currentRoom);
@@ -191,11 +188,11 @@ void checkHunterFearAndBoredom(HunterType *hunter) {
 }
 
 /*
-  Function: cleanupHunters(HunterNode *hunters)
-  Purpose:  This function will free all the allocated memeory for hunter
-        in     HunterType *hunter           pointer to the hunter
-
-  return void
+  Function: cleanupHunters
+  Parameters:
+    HunterNode *hunters - Pointer to the head of the hunters list.
+  Purpose: Frees all allocated memory associated with hunters.
+  Return: void
 */
 void cleanupHunters(HunterNode *hunters){
     if(hunters == NULL) return ;
@@ -210,12 +207,11 @@ void cleanupHunters(HunterNode *hunters){
 }
 
 /*
-  Function: hunterFunction(void *arg)
-  Purpose:  This function will let hunter have action until the hunter thread exit
-        in     void *arg        the data of the hunter
-
-  return void
-    NULL: The function returns NULL when the hunter thread completes its execution.
+  Function: hunterFunction
+  Parameters:
+    void *arg - Pointer to the hunter data.
+  Purpose: Executes hunter actions repeatedly in a thread until the thread exits.
+  Return: NULL - Indicates the thread's completion.
 */
 void* hunterFunction(void *arg){
     HunterType *hunter = (HunterType * )arg;
