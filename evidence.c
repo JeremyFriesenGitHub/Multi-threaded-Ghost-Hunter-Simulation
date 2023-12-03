@@ -1,12 +1,11 @@
 #include "defs.h"
-//Testing
 
 /*
-  Function: initEvidenceList(EvidenceList *)
-  Purpose:  This function will initialize the evidence list
-        out    EvidenceList *list     The pointer to the list of evidence
-
-  return void
+  Function: initEvidenceList
+  Parameters:
+    EvidenceList *list - Pointer to the list of evidence to be initialized.
+  Purpose: Initializes the evidence list with default values and prepares it for use.
+  Return: void
 */
 void initEvidenceList(EvidenceList *list){
     list->head = NULL;
@@ -16,14 +15,13 @@ void initEvidenceList(EvidenceList *list){
 }
 
 /*
-  Function: getEvidence(EvidenceList *, EvidenceType )
-  Purpose:  This function will check does evidence exist in the evidence list
-        in     EvidenceList *list         The pointer to the list of evidence
-        in     EvidenceType evidence      The pointer to the the evidence to find does it exist in the link list of evidence
-
-  return int 
-    C_FALSE - evidence not found in the list
-    C_TRUE - evidence found in the list
+  Function: getEvidence
+  Parameters:
+    EvidenceList *list - Pointer to the list of evidence.
+    EvidenceType evidence - The evidence type to check in the list.
+  Purpose: Checks whether a specific type of evidence exists in the evidence list.
+  Return: 
+    int - C_FALSE if evidence is not found in the list, C_TRUE if found.
 */
 int getEvidence(EvidenceList *list, EvidenceType evidence) {
 
@@ -42,12 +40,12 @@ int getEvidence(EvidenceList *list, EvidenceType evidence) {
 }
 
 /*
-  Function: addEvidence(EvidenceList *, EvidenceType )
-  Purpose:  This function will add a evidence to the link list
-        in     EvidenceList *list         The pointer to the list of evidence
-        in     EvidenceType evidence      The pointer to the the evidence that will be added to list
-
-  return void
+  Function: addEvidence
+  Parameters:
+    EvidenceList *list - Pointer to the list of evidence.
+    EvidenceType evidence - The evidence type to be added to the list.
+  Purpose: Adds a new evidence type to the evidence list if it does not already exist.
+  Return: void
 */
 void addEvidence(EvidenceList *list, EvidenceType evidence){
 
@@ -91,12 +89,12 @@ void addEvidence(EvidenceList *list, EvidenceType evidence){
 }
 
 /*
-  Function: addEvidenceToRoom(Room *, EvidenceType )
-  Purpose:  This function will add a evidence to the room
-        in     Room *room                   The pointer to the room where evidences will be add to
-        in     EvidenceType evidence        The pointer to the the evidence that will be added to list
-
-  return void
+  Function: addEvidenceToRoom
+  Parameters:
+    Room *room - Pointer to the room where the evidence will be added.
+    EvidenceType evidence - The evidence type to be added to the room's evidence list.
+  Purpose: Adds a specified evidence type to the evidence list of a given room.
+  Return: void
 */
 void addEvidenceToRoom(Room *room, EvidenceType evidence) {
     //Check is evidence valid
@@ -110,12 +108,12 @@ void addEvidenceToRoom(Room *room, EvidenceType evidence) {
 
 
 /*
-  Function: removeEvidenceFromRoom(Room *, EvidenceType )
-  Purpose:  This function will remove a evidence from the room
-        in     Room *room                   The pointer to the room where evidences will be remove from
-        in     EvidenceType evidence        The pointer to the the evidence that will be remove from list
-
-  return void
+  Function: removeEvidenceFromRoom
+  Parameters:
+    Room *room - Pointer to the room from which the evidence will be removed.
+    EvidenceType evidence - The evidence type to be removed from the room's evidence list.
+  Purpose: Removes a specified evidence type from the evidence list of a given room.
+  Return: void
 */
 void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
     if (evidence < 0 || evidence >= EV_COUNT) {
@@ -160,11 +158,11 @@ void removeEvidenceFromRoom(Room *room, EvidenceType evidence) {
 
 
 /*
-  Function: cleanupEvidences(EvidenceList *)
-  Purpose:  This function will free the memory allocated for this evidence list
-        in     EvidenceList *list
-
-  return void
+  Function: cleanupEvidences
+  Parameters:
+    EvidenceList *list - Pointer to the evidence list to be cleaned up.
+  Purpose: Frees the memory allocated for the evidence list and its elements.
+  Return: void
 */
 void cleanupEvidences(EvidenceList *list){
     //check is list empty
