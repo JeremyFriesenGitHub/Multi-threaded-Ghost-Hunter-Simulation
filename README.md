@@ -1,7 +1,6 @@
 # ## Jeremy Friesen && Matthew Hui
-# ## 101268194 && 101261612
 
-# # Final Project -- Threads, and Putting it All Together
+# # Project Summary 
 
 This project involves building a multi-threaded ghost hunting simulation where hunters (threads) navigate through a network of connected rooms within a house, collecting different types of evidence to identify the specific ghost wandering around in the house. Hunters manage fear and boredom levels that influence their actions, while the ghost moves around leaving evidence and potentially ending its haunting if it becomes too bored.  
 
@@ -29,7 +28,6 @@ This project involves building a multi-threaded ghost hunting simulation where h
 
 -README.md: Contains this description
 
--github.png: Contains screenshot of the GitHub commit history
 
 # ##Compiling and Executing
 
@@ -40,8 +38,6 @@ This project involves building a multi-threaded ghost hunting simulation where h
 3. Use the command 'valgrind --leak-check=full ./ghost_hunt_simulator'. while in the folder containing the executable to run the program. Optional use to run the valgrind check for leaks.
 
 4. Use the command 'Make clean' to remove all of the object files created from the makefile, if necessary. 
-
-5. Optional use to pipe in names using '< names.txt' or to use './validate' for validation checks. 
 
 # ## Expected Output
 
@@ -59,6 +55,3 @@ This project involves building a multi-threaded ghost hunting simulation where h
 
 7. The results of the simulation are printed out at the bottom of the terminal, with either the ghost or the hunters winning. The hunters win if they are able to correctly review and identify the ghost with the evidence, and lose if they fail to do so.  
 
-# ## Bonus Marks
-
-Github Commit History: See screenshot file included. 
