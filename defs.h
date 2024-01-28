@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <semaphore.h>
+#include <stdbool.h>
 #include <time.h>
 
 #define MAX_STR         64
@@ -100,6 +101,8 @@ void initHunter(HunterType *hunter, const char *name, Room *startingRoom, Eviden
 void initGhost(GhostType *ghost, GhostClass type, Room *startingRoom);
 
 //function declarations
+bool canAddEvidence(EvidenceList *list, EvidenceType evidence);
+void replaceOldestEvidence(Room *room, EvidenceType newEvidence);
 Room *createRoom(const char *name);
 void connectRooms(Room *room1, Room *room2);
 void addRoom(RoomNode **rooms, Room *room);

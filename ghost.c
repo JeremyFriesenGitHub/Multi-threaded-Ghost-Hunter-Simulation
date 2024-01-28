@@ -132,23 +132,61 @@ void moveGhost(GhostType *ghost) {
   Return: void
 */
 void leaveEvidence(GhostType *ghost) {
-
-    //lock the room
+    // Lock the room
     lockRoom(ghost->currentRoom);
-    if (ghost->currentRoom->evidenceList->numEvidence< MAX_EVIDENCE) { // MAX_EVIDENCE is the max number of evidence a room can hold
-        int evidenceIndex = randInt(0, 3); // Randomly select one of the ghost's valid evidence types
-        EvidenceType evidence = ghost->validEvidenceTypes[evidenceIndex];
 
-        //Check is there duplicate of evidence
-        //if there is duplicate evidence don't add it to evidence list to save memory
-        if(getEvidence(ghost->currentRoom->evidenceList, evidence) == C_FALSE) {
+    int evidenceIndex = randInt(0, 3); 
+    EvidenceType evidence = ghost->validEvidenceTypes[evidenceIndex];
+
+    // Check if the room is full
+    if (ghost->currentRoom->evidenceList->numEvidence >= MAX_EVIDENCE) {
+        replaceOldestEvidence(ghost->currentRoom, evidence); // A new function to replace the oldest evidence
+    } else {
+        // Check for duplicate evidence, allow limited duplicates
+        if (canAddEvidence(ghost->currentRoom->evidenceList, evidence)) {
             addEvidenceToRoom(ghost->currentRoom, evidence);
         }
-
-        //log evidence
-        l_ghostEvidence(evidence, ghost->currentRoom->name);
     }
+
+    // Log evidence
+    l_ghostEvidence(evidence, ghost->currentRoom->name);
+
     unlockRoom(ghost->currentRoom);
+}
+
+bool canAddEvidence(EvidenceList *list, EvidenceType evidence) {
+    int count = 0;
+    const int MAX_DUPLICATES = 2;
+    EvidenceNode *current = list->head;
+
+    while (current != NULL) {
+        if (current->evidence == evidence) {
+            count++;
+            if (count >= MAX_DUPLICATES) {
+                return false; // Too many duplicates
+            }
+        }
+        current = current->next;
+    }
+
+    return true; // Evidence can be added
+}
+
+void replaceOldestEvidence(Room *room, EvidenceType newEvidence) {
+    if (room->evidenceList->head == NULL) {
+        return; // No evidence to replace
+    }
+
+    // Remove the oldest evidence
+    EvidenceNode *oldest = room->evidenceList->head;
+    room->evidenceList->head = oldest->next;
+    free(oldest); // Assuming you need to free the node
+
+    // Decrement the evidence count
+    room->evidenceList->numEvidence--;
+
+    // Add the new evidence
+    addEvidenceToRoom(room, newEvidence);
 }
 
 /*
